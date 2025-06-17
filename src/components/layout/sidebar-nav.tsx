@@ -78,14 +78,11 @@ export function SidebarNav() {
                   <TooltipTrigger asChild>
                     <Link href={item.href} asChild>
                       <SidebarMenuButton
-                        asChild
                         isActive={pathname.startsWith(item.href)}
                         className="justify-start"
                       >
-                        <a>
-                          <item.icon className="h-5 w-5" />
-                          <span className="group-data-[collapsible=icon]:hidden">{t(item.labelKey)}</span>
-                        </a>
+                        <item.icon className="h-5 w-5" />
+                        <span className="group-data-[collapsible=icon]:hidden">{t(item.labelKey)}</span>
                       </SidebarMenuButton>
                     </Link>
                   </TooltipTrigger>
@@ -172,3 +169,5 @@ export function SidebarNav() {
     </div>
   );
 }
+
+    

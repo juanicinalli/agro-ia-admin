@@ -511,9 +511,9 @@ const sidebarMenuButtonVariants = cva(
           "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
       },
       size: {
-        default: "h-10 text-base", // Changed h-8 to h-10 and text-sm to text-base
+        default: "h-10 text-base", 
         sm: "h-7 text-xs",
-        lg: "h-12 text-base group-data-[collapsible=icon]:!p-0", // Changed text-sm to text-base
+        lg: "h-12 text-base group-data-[collapsible=icon]:!p-0", 
       },
     },
     defaultVariants: {
@@ -539,44 +539,59 @@ const SidebarMenuButton = React.forwardRef<
 >(
   (
     {
-      className: ownClassNameFromProps,
+      className: ownClassName,
       variant,
       size,
-      asChild: sbmOwnAsChild = false,
+      asChild: sbmOwnAsChild = false, 
       isActive,
-      children,
-      ...allParentProps 
+      children: sbmChildren,      
+      ...restFromParent 
     },
     ref
   ) => {
-    const Comp = sbmOwnAsChild ? Slot : "button";
+    const { 
+      asChild: _asChildFromParent, 
+      className: classNameFromParent, 
+      href,                       
+      type: typeFromParent,       
+      ...functionalPropsFromParent 
+    } = restFromParent as Omit<SidebarMenuButtonProps, 'asChild' | 'className' | 'variant' | 'size' | 'isActive' | 'children'> & { href?: string, type?: string };
 
-    // Destructure asChild from allParentProps to prevent it from being spread to the DOM element if Comp is 'button'
-    // and also to avoid prop-type warnings if Comp is Slot (Slot handles asChild internally from its direct parent).
-    const { asChild: asChildFromParent, className: classNameFromParent, ...functionalPropsFromParent } = allParentProps;
-
-    // If SidebarMenuButton itself is rendering as a Slot (sbmOwnAsChild is true),
-    // then the asChildFromParent should effectively be passed to this Slot,
-    // so that Slot can pass it to ITS child.
-    // If SidebarMenuButton is rendering as a 'button', asChildFromParent is irrelevant to the button itself.
-    const slotProps = sbmOwnAsChild ? { asChild: asChildFromParent, ...functionalPropsFromParent } : functionalPropsFromParent;
-
-
-    return (
-      <Comp
-        ref={ref}
-        className={cn(
-          sidebarMenuButtonVariants({ variant, size, className: ownClassNameFromProps }),
-          classNameFromParent 
-        )}
-        data-active={isActive}
-        data-sidebar="menu-button"
-        data-size={size} 
-        {...slotProps}
-      >
-        {children}
-      </Comp>
+    const finalClassName = cn(
+      sidebarMenuButtonVariants({ variant, size, className: ownClassName }),
+      classNameFromParent
     );
+
+    const commonProps = {
+      ...functionalPropsFromParent,
+      ref,
+      className: finalClassName,
+      'data-active': isActive,
+      'data-sidebar': 'menu-button',
+      'data-size': size,
+    };
+
+    if (href !== undefined) { 
+      return (
+        <a {...commonProps} href={href}>
+          {sbmChildren}
+        </a>
+      );
+    } else { 
+      if (sbmOwnAsChild) { 
+        return (
+          <Slot {...commonProps} {...(typeFromParent ? { type: typeFromParent } : {})}>
+            {sbmChildren}
+          </Slot>
+        );
+      } else { 
+        return (
+          <button {...commonProps} type={typeFromParent || 'button'}>
+            {sbmChildren}
+          </button>
+        );
+      }
+    }
   }
 );
 SidebarMenuButton.displayName = "SidebarMenuButton"
@@ -748,3 +763,5 @@ export {
   SidebarTrigger,
   useSidebar,
 }
+
+    

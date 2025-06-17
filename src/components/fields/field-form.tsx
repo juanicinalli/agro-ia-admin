@@ -13,8 +13,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useRouter } from 'next/navigation';
 
-const CROP_TYPES = ["Corn", "Soybeans", "Wheat", "Barley", "Canola", "Potatoes", "Sugar Beets", "Cotton"];
-const FIELD_STATUSES = ["Planted", "Growing", "Harvesting", "Fallow", "Preparing"];
+const CROP_TYPES = ["Corn", "Soybeans", "Wheat", "Barley", "Canola", "Potatoes", "Sugar Beets", "Cotton", "Sorghum", "Sunflower"];
+const FIELD_STATUSES = ["Planted", "Growing", "Harvesting", "Fallow", "Preparing", "Tillage", "Irrigating"];
+const SOIL_TYPES = ["Sandy", "Silty", "Clay", "Loamy", "Peaty", "Chalky", "Clay Loam", "Sandy Loam", "Silty Loam", "Loamy Sand"];
 
 const fieldSchema = z.object({
   name: z.string().min(3, { message: "Field name must be at least 3 characters." }),
@@ -168,7 +169,7 @@ export function FieldForm({ initialData, onSubmit, isEditing = false }: FieldFor
                   <FormControl>
                     <Input placeholder="https://example.com/image.png" {...field} />
                   </FormControl>
-                  <FormDescription>Enter a URL for the field image.</FormDescription>
+                  <FormDescription>Enter a URL for the field image. Use https://placehold.co for placeholders.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

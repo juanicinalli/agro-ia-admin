@@ -4,9 +4,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
-import { LayoutDashboard, Tractor, CalendarDays, Lightbulb, Wheat, BrainCircuit, LogOut } from 'lucide-react';
+import { Tractor, CalendarDays, Lightbulb, Wheat, BrainCircuit, LogOut } from 'lucide-react';
 import { useApp } from '@/contexts/app-provider';
-import { Button } from '@/components/ui/button';
 
 const navItems = [
   { href: '/dashboard/fields', label: 'Fields', icon: Tractor },
@@ -21,12 +20,10 @@ export function SidebarNav() {
   return (
     <div className="flex flex-col h-full">
       <div className="p-4 border-b border-sidebar-border">
-        <Link href="/dashboard/fields" asChild>
-          <a className="flex items-center gap-2">
+        <Link href="/dashboard/fields" className="flex items-center gap-2">
             <Wheat className="h-8 w-8 text-primary" />
             <BrainCircuit className="h-7 w-7 text-primary" />
             <h1 className="text-2xl font-headline font-semibold text-sidebar-foreground group-data-[collapsible=icon]:hidden">AgroVision AI</h1>
-          </a>
         </Link>
       </div>
       <nav className="flex-grow p-2">

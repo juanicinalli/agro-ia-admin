@@ -525,45 +525,49 @@ const sidebarMenuButtonVariants = cva(
 
 type SidebarMenuButtonProps =
   React.ComponentPropsWithoutRef<"button"> &
-  Partial<React.ComponentPropsWithoutRef<"a">> & // Allows href, etc.
+  Partial<React.ComponentPropsWithoutRef<"a">> & 
   {
     asChild?: boolean;
+    children?: React.ReactNode;
     isActive?: boolean;
-    children?: React.ReactNode; // Explicitly include children
   } & VariantProps<typeof sidebarMenuButtonVariants>;
 
 
 const SidebarMenuButton = React.forwardRef<
-  HTMLButtonElement, // The ref type can be HTMLButtonElement or HTMLAnchorElement depending on usage
+  HTMLAnchorElement | HTMLButtonElement, // Updated ref type
   SidebarMenuButtonProps
 >(
   (
     {
-      className, // Passed to SidebarMenuButton for its own styling
+      className: ownClassNameFromProps,
       variant,
       size,
-      asChild = false, // SidebarMenuButton's own asChild prop
+      asChild: sbmOwnAsChild = false,
       isActive,
-      children, // Children to be rendered inside the button or passed to Slot
-      ...restOfParentProps // All other props from parent (e.g., Link, TooltipTrigger)
+      children,
+      ...restOfAllProps 
     },
     ref
   ) => {
-    const Comp = asChild ? Slot : "button";
+    const Comp = sbmOwnAsChild ? Slot : "button";
 
-    // Destructure asChild from restOfParentProps to prevent it from being spread if it came from a parent
-    const { asChild: asChildFromParent, ...safeParentProps } = restOfParentProps;
+    const { 
+      className: classNameFromParent, 
+      asChild: asChildFromParent, 
+      ...functionalPropsFromParent
+    } = restOfAllProps;
 
     return (
       <Comp
         ref={ref}
         className={cn(
-          sidebarMenuButtonVariants({ variant, size, className })
+          sidebarMenuButtonVariants({ variant, size, className: ownClassNameFromProps }),
+          classNameFromParent 
         )}
         data-active={isActive}
         data-sidebar="menu-button"
-        data-size={size} // Using size prop directly for data attribute
-        {...safeParentProps} // Spread parent-specific props (e.g., href from Link), excluding asChildFromParent
+        data-size={size} 
+        {...functionalPropsFromParent}
       >
         {children}
       </Comp>
@@ -739,4 +743,3 @@ export {
   SidebarTrigger,
   useSidebar,
 }
-

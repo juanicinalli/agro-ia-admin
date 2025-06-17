@@ -185,6 +185,11 @@
       "tonnes": "Tonnellate",
       "lbs": "Libbre",
       "bushels": "Bushel"
+    },
+    "grain_types": {
+      "wheat": "Grano",
+      "corn": "Mais",
+      "soybeans": "Soia"
     }
   },
   "fields_page": {
@@ -199,6 +204,3 @@
     "it": "Italiano"
   }
 }
-
-
-    

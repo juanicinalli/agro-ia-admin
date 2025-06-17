@@ -44,7 +44,7 @@ export default function StockPage() {
   const [isNewStockModalOpen, setIsNewStockModalOpen] = useState(false);
 
   const [transactionQuantity, setTransactionQuantity] = useState('');
-  const [transactionUnit, setTransactionUnit] = useState(WEIGHT_UNITS[0]); // State for transaction unit
+  const [transactionUnit, setTransactionUnit] = useState(WEIGHT_UNITS[0]); 
   const [transactionLocation, setTransactionLocation] = useState('');
   const [transactionDate, setTransactionDate] = useState<Date | undefined>(undefined);
   
@@ -58,14 +58,14 @@ export default function StockPage() {
   const handleAddStockClick = (stock: StockItem) => {
     setSelectedStock(stock);
     resetTransactionForm();
-    setTransactionUnit(stock.unit); // Default transaction unit to stock's unit
+    setTransactionUnit(stock.unit); 
     setIsAddModalOpen(true);
   };
 
   const handleRemoveStockClick = (stock: StockItem) => {
     setSelectedStock(stock);
     resetTransactionForm();
-    setTransactionUnit(stock.unit); // Default transaction unit to stock's unit
+    setTransactionUnit(stock.unit); 
     setIsRemoveModalOpen(true);
   };
 
@@ -87,7 +87,14 @@ export default function StockPage() {
       stock.id === selectedStock.id ? { ...stock, quantity: stock.quantity + quantity } : stock
     ));
     
-    toast({ title: t('stock_page.toast_stock_added.title'), description: t('stock_page.toast_stock_added.description', { quantity, grainType: selectedStock.grainType, unit: t(`stock_page.units.${transactionUnit.toLowerCase()}`) }) });
+    toast({ 
+      title: t('stock_page.toast_stock_added.title'), 
+      description: t('stock_page.toast_stock_added.description', { 
+        quantity, 
+        grainType: t(`stock_page.grain_types.${selectedStock.grainType.toLowerCase()}`, selectedStock.grainType), 
+        unit: t(`stock_page.units.${transactionUnit.toLowerCase()}`) 
+      }) 
+    });
     setIsAddModalOpen(false);
   };
 
@@ -109,7 +116,14 @@ export default function StockPage() {
       stock.id === selectedStock.id ? { ...stock, quantity: stock.quantity - quantity } : stock
     ));
     
-    toast({ title: t('stock_page.toast_stock_removed.title'), description: t('stock_page.toast_stock_removed.description', { quantity, grainType: selectedStock.grainType, unit: t(`stock_page.units.${transactionUnit.toLowerCase()}`) }) });
+    toast({ 
+      title: t('stock_page.toast_stock_removed.title'), 
+      description: t('stock_page.toast_stock_removed.description', { 
+        quantity, 
+        grainType: t(`stock_page.grain_types.${selectedStock.grainType.toLowerCase()}`, selectedStock.grainType), 
+        unit: t(`stock_page.units.${transactionUnit.toLowerCase()}`) 
+      }) 
+    });
     setIsRemoveModalOpen(false);
   };
 
@@ -127,7 +141,12 @@ export default function StockPage() {
     };
 
     setGrainStock([...grainStock, newStockItem]);
-    toast({ title: t('stock_page.toast_stock_type_created.title'), description: t('stock_page.toast_stock_type_created.description', { grainType: newStockData.grainType }) });
+    toast({ 
+      title: t('stock_page.toast_stock_type_created.title'), 
+      description: t('stock_page.toast_stock_type_created.description', { 
+        grainType: newStockData.grainType 
+      }) 
+    });
     setIsNewStockModalOpen(false);
   };
 
@@ -135,7 +154,7 @@ export default function StockPage() {
     setTransactionQuantity('');
     setTransactionLocation('');
     setTransactionDate(new Date());
-    setTransactionUnit(WEIGHT_UNITS[0]); // Reset transaction unit as well
+    setTransactionUnit(WEIGHT_UNITS[0]); 
   };
 
   return (
@@ -153,7 +172,7 @@ export default function StockPage() {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <ShoppingBag className="mr-2 h-5 w-5 text-primary" />
-                {stock.grainType}
+                {t(`stock_page.grain_types.${stock.grainType.toLowerCase()}`, stock.grainType)}
               </CardTitle>
               <CardDescription>{t('stock_page.current_quantity_description', { quantity: stock.quantity, unit: t(`stock_page.units.${stock.unit.toLowerCase()}`) })}</CardDescription>
             </CardHeader>
@@ -173,7 +192,10 @@ export default function StockPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center">
-              <Package className="mr-2 h-5 w-5 text-primary" /> {t('stock_page.add_stock_modal_title', { grainType: selectedStock?.grainType })}
+              <Package className="mr-2 h-5 w-5 text-primary" /> 
+              {t('stock_page.add_stock_modal_title', { 
+                grainType: selectedStock ? t(`stock_page.grain_types.${selectedStock.grainType.toLowerCase()}`, selectedStock.grainType) : '' 
+              })}
             </DialogTitle>
             <DialogDescription>
                {t('stock_page.add_stock_modal_description_transaction')}
@@ -262,7 +284,10 @@ export default function StockPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center">
-              <Truck className="mr-2 h-5 w-5 text-primary" /> {t('stock_page.remove_stock_modal_title', { grainType: selectedStock?.grainType })}
+              <Truck className="mr-2 h-5 w-5 text-primary" /> 
+              {t('stock_page.remove_stock_modal_title', { 
+                grainType: selectedStock ? t(`stock_page.grain_types.${selectedStock.grainType.toLowerCase()}`, selectedStock.grainType) : '' 
+              })}
             </DialogTitle>
             <DialogDescription>
               {t('stock_page.remove_stock_modal_description_transaction')}
@@ -414,6 +439,3 @@ export default function StockPage() {
     </div>
   );
 }
-
-
-    

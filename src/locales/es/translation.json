@@ -185,6 +185,11 @@
       "tonnes": "Toneladas",
       "lbs": "Libras",
       "bushels": "Bushels"
+    },
+    "grain_types": {
+      "wheat": "Trigo",
+      "corn": "Maíz",
+      "soybeans": "Soja"
     }
   },
   "fields_page": {
@@ -199,6 +204,3 @@
     "it": "Italiano"
   }
 }
-
-
-    

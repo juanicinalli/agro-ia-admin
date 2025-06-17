@@ -185,6 +185,11 @@
       "tonnes": "Tonnes",
       "lbs": "Pounds",
       "bushels": "Bushels"
+    },
+    "grain_types": {
+      "wheat": "Wheat",
+      "corn": "Corn",
+      "soybeans": "Soybeans"
     }
   },
   "fields_page": {
@@ -199,6 +204,3 @@
     "it": "Italiano"
   }
 }
-
-
-    

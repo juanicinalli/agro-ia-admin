@@ -502,7 +502,7 @@ const SidebarMenuItem = React.forwardRef<
 SidebarMenuItem.displayName = "SidebarMenuItem"
 
 const sidebarMenuButtonVariants = cva(
-  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-base outline-none ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -511,9 +511,9 @@ const sidebarMenuButtonVariants = cva(
           "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
       },
       size: {
-        default: "h-8 text-sm",
+        default: "h-10 text-base", // Changed h-8 to h-10 and text-sm to text-base
         sm: "h-7 text-xs",
-        lg: "h-12 text-sm group-data-[collapsible=icon]:!p-0",
+        lg: "h-12 text-base group-data-[collapsible=icon]:!p-0", // Changed text-sm to text-base
       },
     },
     defaultVariants: {
@@ -534,7 +534,7 @@ type SidebarMenuButtonProps =
 
 
 const SidebarMenuButton = React.forwardRef<
-  HTMLAnchorElement | HTMLButtonElement, // Updated ref type
+  HTMLAnchorElement | HTMLButtonElement,
   SidebarMenuButtonProps
 >(
   (
@@ -545,17 +545,22 @@ const SidebarMenuButton = React.forwardRef<
       asChild: sbmOwnAsChild = false,
       isActive,
       children,
-      ...restOfAllProps 
+      ...allParentProps 
     },
     ref
   ) => {
     const Comp = sbmOwnAsChild ? Slot : "button";
 
-    const { 
-      className: classNameFromParent, 
-      asChild: asChildFromParent, 
-      ...functionalPropsFromParent
-    } = restOfAllProps;
+    // Destructure asChild from allParentProps to prevent it from being spread to the DOM element if Comp is 'button'
+    // and also to avoid prop-type warnings if Comp is Slot (Slot handles asChild internally from its direct parent).
+    const { asChild: asChildFromParent, className: classNameFromParent, ...functionalPropsFromParent } = allParentProps;
+
+    // If SidebarMenuButton itself is rendering as a Slot (sbmOwnAsChild is true),
+    // then the asChildFromParent should effectively be passed to this Slot,
+    // so that Slot can pass it to ITS child.
+    // If SidebarMenuButton is rendering as a 'button', asChildFromParent is irrelevant to the button itself.
+    const slotProps = sbmOwnAsChild ? { asChild: asChildFromParent, ...functionalPropsFromParent } : functionalPropsFromParent;
+
 
     return (
       <Comp
@@ -567,7 +572,7 @@ const SidebarMenuButton = React.forwardRef<
         data-active={isActive}
         data-sidebar="menu-button"
         data-size={size} 
-        {...functionalPropsFromParent}
+        {...slotProps}
       >
         {children}
       </Comp>

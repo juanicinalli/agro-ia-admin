@@ -159,11 +159,11 @@ export default function StockPage() {
               </CardTitle>
               <CardDescription>{t('stock_page.current_quantity_description', { quantity: stock.quantity })}</CardDescription>
             </CardHeader>
-            <CardFooter className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => handleAddStockClick(stock)}>
+            <CardFooter className="flex flex-col sm:flex-row sm:justify-end gap-2">
+              <Button variant="outline" onClick={() => handleAddStockClick(stock)} className="w-full sm:w-auto">
                 <ArrowUpCircle className="mr-2 h-5 w-5" /> {t('stock_page.add_stock_button')}
               </Button>
-              <Button variant="outline" onClick={() => handleRemoveStockClick(stock)}>
+              <Button variant="outline" onClick={() => handleRemoveStockClick(stock)} className="w-full sm:w-auto">
                 <ArrowDownCircle className="mr-2 h-5 w-5" /> {t('stock_page.remove_stock_button')}
               </Button>
             </CardFooter>
@@ -217,7 +217,7 @@ export default function StockPage() {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-[280px] justify-start text-left font-normal",
+                        "w-full justify-start text-left font-normal",
                         !transactionDate && "text-muted-foreground"
                       )}
                     >
@@ -291,7 +291,7 @@ export default function StockPage() {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-[280px] justify-start text-left font-normal",
+                        "w-full justify-start text-left font-normal",
                         !transactionDate && "text-muted-foreground"
                       )}
                     >

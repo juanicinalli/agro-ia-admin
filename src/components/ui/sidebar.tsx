@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -536,36 +535,40 @@ const sidebarMenuButtonVariants = cva(
 
 const SidebarMenuButton = React.forwardRef<
   HTMLButtonElement,
-  React.ComponentProps<"button"> & {
+  // Combine React.ComponentProps for "button" (common case) and "a" (for Link asChild)
+  // This is a simplification; truly generic would use a generic element type
+  // For now, we assume it's mostly button-like or anchor-like attributes.
+  React.ComponentPropsWithoutRef<"button"> & // Base props
+  Partial<React.ComponentPropsWithoutRef<"a">> & // Add anchor props if used with Link
+  {
     asChild?: boolean
     isActive?: boolean
     tooltip?: string | React.ComponentProps<typeof TooltipContent>
   } & VariantProps<typeof sidebarMenuButtonVariants>
 >(
   (
-    {
-      asChild: ownAsChildProp, // Use a different name for the prop
+    props, // All props are in 'props' object
+    ref
+  ) => {
+    const { isMobile, state } = useSidebar()
+
+    // Destructure SidebarMenuButton's specific props and its own 'asChild' prop
+    const {
+      asChild: ownAsChildProp, // This component's decision to be a Slot
       isActive = false,
       variant = "default",
       size = "default",
       tooltip,
-      className,
-      ...restProps // Contains all other props, including potentially 'asChild' from a parent
-    },
-    ref
-  ) => {
-    const Comp = ownAsChildProp ? Slot : "button";
-    const { isMobile, state } = useSidebar();
+      className: ownClassName, // className specifically for SidebarMenuButton's styling
+      ...incomingProps // All other props from parent (e.g., Link, TooltipTrigger)
+                       // This might include href, onClick, data-*, and potentially another 'asChild' or 'className'
+    } = props;
 
-    let propsForComp = restProps;
-    // If this component is meant to be a Slot (ownAsChildProp is true),
-    // and it also received an 'asChild' prop from its parent (e.g., Link),
-    // we should not pass that parent's 'asChild' prop to the Slot component itself.
-    // The Slot component will take its children and apply other props.
-    if (ownAsChildProp && typeof restProps.asChild !== 'undefined') {
-      const { asChild: asChildFromParent, ...otherParentProps } = restProps;
-      propsForComp = otherParentProps;
-    }
+    // Separate 'asChild' and 'className' from the incoming parent props, if they exist
+    // These should not be spread directly if ownAsChildProp is true and Comp is Slot
+    const { asChild: incomingAsChild, className: incomingClassName, ...renderableParentProps } = incomingProps;
+
+    const Comp = ownAsChildProp ? Slot : "button";
 
     const buttonElement = (
       <Comp
@@ -573,8 +576,13 @@ const SidebarMenuButton = React.forwardRef<
         data-sidebar="menu-button"
         data-size={size}
         data-active={isActive}
-        className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
-        {...propsForComp}
+        // Merge ownClassName (from SidebarMenuButton's explicit prop)
+        // with incomingClassName (from parent component like Link/TooltipTrigger)
+        // and the variant/size classes.
+        className={cn(sidebarMenuButtonVariants({ variant, size }), ownClassName, incomingClassName)}
+        // Spread the remaining parent props (href, onClick, data-attributes etc.)
+        // This should NOT include 'asChild' or 'className' from the parent, as those are handled.
+        {...renderableParentProps}
       />
     );
 
@@ -582,7 +590,9 @@ const SidebarMenuButton = React.forwardRef<
       return buttonElement;
     }
 
-    const tooltipProps = typeof tooltip === "string" ? { children: tooltip } : tooltip;
+    // If tooltip prop is used, wrap buttonElement with Tooltip components
+    // This internal Tooltip should not interfere with Link asChild if Link is outside
+    const tooltipContentProps = typeof tooltip === "string" ? { children: tooltip } : tooltip;
 
     return (
       <Tooltip>
@@ -591,7 +601,7 @@ const SidebarMenuButton = React.forwardRef<
           side="right"
           align="center"
           hidden={state !== "collapsed" || isMobile}
-          {...tooltipProps}
+          {...tooltipContentProps}
         />
       </Tooltip>
     );
@@ -768,4 +778,3 @@ export {
   SidebarTrigger,
   useSidebar,
 }
-

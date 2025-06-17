@@ -1,3 +1,4 @@
+
 {
   "sidebar": {
     "fields": "Campos",
@@ -45,7 +46,8 @@
   "login_page": {
     "title": "Bienvenido a AgroVision AI",
     "description": "Inicia sesión para gestionar tus campos y obtener información IA.",
-    "demo_access": "Usa demo@agrovision.ai / password para acceso de demostración."
+    "demo_access": "Usa demo@agrovision.ai / password para acceso de demostración.",
+    "login_button": "Iniciar Sesión"
   },
   "field_form": {
     "add_title": "Agregar Nuevo Campo",
@@ -54,7 +56,8 @@
     "edit_description": "Actualiza los detalles de tu campo.",
     "name_label": "Nombre del Campo",
     "name_placeholder": "Ej: Parcela Norte",
-    "area_label": "Área (acres)",
+    "area_label": "Área",
+    "area_label_suffix": "acres",
     "area_placeholder": "Ej: 120",
     "crop_type_label": "Tipo de Cultivo",
     "crop_type_placeholder": "Selecciona un tipo de cultivo",
@@ -77,12 +80,16 @@
     "area_prefix": "Área",
     "soil_prefix": "Suelo",
     "view_button": "Ver",
+    "view_button_aria": "Ver detalles de {{fieldName}}",
+    "edit_button_aria": "Editar {{fieldName}}",
+    "delete_button_aria": "Eliminar {{fieldName}}",
     "delete_dialog_title": "¿Estás seguro?",
     "delete_dialog_description": "Esta acción no se puede deshacer. Esto eliminará permanentemente el campo \"{{fieldName}}\" y todos los datos asociados.",
     "delete_button": "Eliminar"
   },
   "field_detail": {
     "back_button": "Volver a Campos",
+    "description": "Información detallada sobre {{fieldName}}.",
     "edit_button": "Editar Campo",
     "scheduled_activities_title": "Actividades Programadas",
     "no_activities_message": "Aún no hay actividades programadas para este campo."
@@ -102,7 +109,8 @@
     "activity_title_placeholder": "Ej: Prueba de Suelo",
     "activity_description_label": "Descripción",
     "activity_description_placeholder": "Descripción detallada de la actividad",
-    "activity_date_label": "Fecha"
+    "activity_date_label": "Fecha",
+    "add_button_short": "Agregar Actividad"
   },
   "calendar_page": {
     "title": "Calendario de Actividades",
@@ -111,7 +119,6 @@
     "previous_month": "Mes anterior",
     "next_month": "Mes siguiente",
     "no_date_selected": "Ninguna Fecha Seleccionada",
-    "activities_scheduled": "{{count}} actividad programada.",
     "activities_scheduled_plural": "{{count}} actividades programadas.",
     "no_activities_for_day": "No hay actividades para este día.",
     "activity_type_ai": "IA",
@@ -156,7 +163,19 @@
     "create_stock_type_button": "Crear Tipo de Inventario",
     "invalid_quantity_alert": "Cantidad inválida.",
     "not_enough_stock_alert": "No hay suficiente inventario.",
-    "invalid_new_stock_data_alert": "Datos de nuevo inventario inválidos."
+    "invalid_new_stock_data_alert": "Datos de nuevo inventario inválidos.",
+    "toast_stock_added": {
+      "title": "Inventario Agregado",
+      "description": "{{quantity}} unidades de {{grainType}} agregadas."
+    },
+    "toast_stock_removed": {
+      "title": "Inventario Removido",
+      "description": "{{quantity}} unidades de {{grainType}} removidas."
+    },
+    "toast_stock_type_created": {
+      "title": "Tipo de Inventario Creado",
+      "description": "Se ha creado el tipo de inventario {{grainType}}."
+    }
   },
   "fields_page": {
     "title": "Mis Campos",

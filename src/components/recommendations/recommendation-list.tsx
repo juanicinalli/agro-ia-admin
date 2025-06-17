@@ -5,6 +5,7 @@ import type { AgronomicRecommendationItem } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Lightbulb, BrainCircuit } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface RecommendationListProps {
   recommendations: AgronomicRecommendationItem[];
@@ -13,6 +14,8 @@ interface RecommendationListProps {
 }
 
 export function RecommendationList({ recommendations, title, icon: Icon }: RecommendationListProps) {
+  const { t } = useTranslation();
+
   if (!recommendations || recommendations.length === 0) {
     return (
       <Card className="shadow-md">
@@ -23,7 +26,7 @@ export function RecommendationList({ recommendations, title, icon: Icon }: Recom
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground">No recommendations available at this time.</p>
+          <p className="text-muted-foreground">{t('recommendations_page.no_recommendations_message')}</p>
         </CardContent>
       </Card>
     );
@@ -32,8 +35,8 @@ export function RecommendationList({ recommendations, title, icon: Icon }: Recom
   const getPriorityBadgeVariant = (priority: 'High' | 'Medium' | 'Low'): "destructive" | "default" | "secondary" => {
     switch (priority) {
       case 'High': return 'destructive';
-      case 'Medium': return 'default'; // Amber-like color (primary)
-      case 'Low': return 'secondary'; // Green-like color (accent) or a muted variant
+      case 'Medium': return 'default';
+      case 'Low': return 'secondary'; 
       default: return 'secondary';
     }
   };
@@ -56,7 +59,7 @@ export function RecommendationList({ recommendations, title, icon: Icon }: Recom
                 <div className="flex items-center gap-2">
                   {rec.source === 'ai' && (
                     <Badge variant="outline" className="border-primary text-primary">
-                      <BrainCircuit className="w-3 h-3 mr-1" /> AI
+                      <BrainCircuit className="w-3 h-3 mr-1" /> {t('calendar_page.activity_type_ai', 'AI')}
                     </Badge>
                   )}
                   <Badge variant={getPriorityBadgeVariant(rec.priority)}>{rec.priority}</Badge>
@@ -70,3 +73,4 @@ export function RecommendationList({ recommendations, title, icon: Icon }: Recom
     </Card>
   );
 }
+

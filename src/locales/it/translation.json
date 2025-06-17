@@ -1,3 +1,4 @@
+
 {
   "sidebar": {
     "fields": "Campi",
@@ -45,7 +46,8 @@
   "login_page": {
     "title": "Benvenuto in AgroVision AI",
     "description": "Accedi per gestire i tuoi campi e ottenere insight IA.",
-    "demo_access": "Usa demo@agrovision.ai / password per l'accesso demo."
+    "demo_access": "Usa demo@agrovision.ai / password per l'accesso demo.",
+    "login_button": "Accedi"
   },
   "field_form": {
     "add_title": "Aggiungi Nuovo Campo",
@@ -54,7 +56,8 @@
     "edit_description": "Aggiorna i dettagli del tuo campo.",
     "name_label": "Nome Campo",
     "name_placeholder": "Es: Paddock Nord",
-    "area_label": "Area (acri)",
+    "area_label": "Area",
+    "area_label_suffix": "acri",
     "area_placeholder": "Es: 120",
     "crop_type_label": "Tipo di Coltura",
     "crop_type_placeholder": "Seleziona un tipo di coltura",
@@ -77,12 +80,16 @@
     "area_prefix": "Area",
     "soil_prefix": "Terreno",
     "view_button": "Visualizza",
+    "view_button_aria": "Visualizza dettagli per {{fieldName}}",
+    "edit_button_aria": "Modifica {{fieldName}}",
+    "delete_button_aria": "Elimina {{fieldName}}",
     "delete_dialog_title": "Sei sicuro?",
     "delete_dialog_description": "Questa azione non può essere annullata. Eliminerà permanentemente il campo \"{{fieldName}}\" e tutti i dati associati.",
     "delete_button": "Elimina"
   },
   "field_detail": {
     "back_button": "Torna ai Campi",
+    "description": "Informazioni dettagliate su {{fieldName}}.",
     "edit_button": "Modifica Campo",
     "scheduled_activities_title": "Attività Programmate",
     "no_activities_message": "Nessuna attività programmata per questo campo."
@@ -102,7 +109,8 @@
     "activity_title_placeholder": "Es: Test del Suolo",
     "activity_description_label": "Descrizione",
     "activity_description_placeholder": "Descrizione dettagliata dell'attività",
-    "activity_date_label": "Data"
+    "activity_date_label": "Data",
+    "add_button_short": "Aggiungi Attività"
   },
   "calendar_page": {
     "title": "Calendario Attività",
@@ -111,7 +119,6 @@
     "previous_month": "Mese precedente",
     "next_month": "Mese successivo",
     "no_date_selected": "Nessuna Data Selezionata",
-    "activities_scheduled": "{{count}} attività programmata.",
     "activities_scheduled_plural": "{{count}} attività programmate.",
     "no_activities_for_day": "Nessuna attività per questo giorno.",
     "activity_type_ai": "IA",
@@ -156,7 +163,19 @@
     "create_stock_type_button": "Crea Tipo di Scorta",
     "invalid_quantity_alert": "Quantità non valida.",
     "not_enough_stock_alert": "Scorte insufficienti.",
-    "invalid_new_stock_data_alert": "Dati nuovo tipo di scorta non validi."
+    "invalid_new_stock_data_alert": "Dati nuovo tipo di scorta non validi.",
+    "toast_stock_added": {
+      "title": "Scorta Aggiunta",
+      "description": "{{quantity}} unità di {{grainType}} aggiunte."
+    },
+    "toast_stock_removed": {
+      "title": "Scorta Rimossa",
+      "description": "{{quantity}} unità di {{grainType}} rimosse."
+    },
+    "toast_stock_type_created": {
+      "title": "Tipo di Scorta Creato",
+      "description": "Il tipo di scorta {{grainType}} è stato creato."
+    }
   },
   "fields_page": {
     "title": "I Miei Campi",

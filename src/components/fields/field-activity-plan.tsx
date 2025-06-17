@@ -7,7 +7,6 @@ import { useApp } from '@/contexts/app-provider';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { BrainCircuit, PlusCircle, CalendarPlus, Loader2 } from 'lucide-react';
 import {
@@ -30,6 +29,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useTranslation } from 'react-i18next';
 
 interface FieldActivityPlanProps {
   field: Field;
@@ -46,6 +46,7 @@ type ActivityFormData = z.infer<typeof activitySchema>;
 export function FieldActivityPlan({ field }: FieldActivityPlanProps) {
   const { generateAIFieldPlan, addActivity, loadingAIPlan } = useApp();
   const [isAddActivityDialogOpen, setIsAddActivityDialogOpen] = useState(false);
+  const { t } = useTranslation();
 
   const activityForm = useForm<ActivityFormData>({
     resolver: zodResolver(activitySchema),
@@ -67,39 +68,41 @@ export function FieldActivityPlan({ field }: FieldActivityPlanProps) {
       <CardHeader>
         <CardTitle className="text-xl font-headline flex items-center gap-2">
           <BrainCircuit className="w-6 h-6 text-primary" />
-          AI Activity Plan
+          {t('field_activity_plan.title')}
         </CardTitle>
         <CardDescription>
-          View AI-generated activity plan or add manual activities for {field.name}.
+          {t('field_activity_plan.description', { fieldName: field.name })}
         </CardDescription>
       </CardHeader>
       <CardContent>
         {field.aiActivityPlan ? (
           <div className="p-4 bg-muted rounded-md">
-            <h4 className="font-semibold mb-2">Generated Plan:</h4>
+            <h4 className="font-semibold mb-2">{t('field_activity_plan.generated_plan_title')}</h4>
             <pre className="whitespace-pre-wrap text-sm font-mono">{field.aiActivityPlan}</pre>
           </div>
         ) : (
-          <p className="text-muted-foreground">No AI plan generated yet. Click below to generate one.</p>
+          <p className="text-muted-foreground">{t('field_activity_plan.no_plan_message')}</p>
         )}
       </CardContent>
       <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-4">
         <Button onClick={() => generateAIFieldPlan(field.id)} disabled={loadingAIPlan} className="w-full sm:w-auto">
           {loadingAIPlan ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <BrainCircuit className="mr-2 h-4 w-4" />}
-          {loadingAIPlan ? 'Generating Plan...' : (field.aiActivityPlan ? 'Regenerate AI Plan' : 'Generate AI Plan')}
+          {loadingAIPlan 
+            ? t('field_activity_plan.generating_button') 
+            : (field.aiActivityPlan ? t('field_activity_plan.regenerate_button') : t('field_activity_plan.generate_button'))}
         </Button>
         
         <Dialog open={isAddActivityDialogOpen} onOpenChange={setIsAddActivityDialogOpen}>
           <DialogTrigger asChild>
             <Button variant="outline" className="w-full sm:w-auto">
-              <CalendarPlus className="mr-2 h-4 w-4" /> Add Manual Activity
+              <CalendarPlus className="mr-2 h-4 w-4" /> {t('field_activity_plan.add_manual_activity_button')}
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Add Manual Activity</DialogTitle>
+              <DialogTitle>{t('field_activity_plan.add_manual_activity_dialog_title')}</DialogTitle>
               <DialogDescription>
-                Enter details for a new activity for {field.name}. This will appear on the calendar.
+                {t('field_activity_plan.add_manual_activity_dialog_description', { fieldName: field.name })}
               </DialogDescription>
             </DialogHeader>
             <Form {...activityForm}>
@@ -109,8 +112,8 @@ export function FieldActivityPlan({ field }: FieldActivityPlanProps) {
                   name="title"
                   render={({ field: formField }) => (
                     <FormItem>
-                      <FormLabel>Title</FormLabel>
-                      <FormControl><Input placeholder="e.g., Soil Testing" {...formField} /></FormControl>
+                      <FormLabel>{t('field_activity_plan.activity_title_label')}</FormLabel>
+                      <FormControl><Input placeholder={t('field_activity_plan.activity_title_placeholder')} {...formField} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -120,8 +123,8 @@ export function FieldActivityPlan({ field }: FieldActivityPlanProps) {
                   name="description"
                   render={({ field: formField }) => (
                     <FormItem>
-                      <FormLabel>Description</FormLabel>
-                      <FormControl><Textarea placeholder="Detailed description of the activity" {...formField} /></FormControl>
+                      <FormLabel>{t('field_activity_plan.activity_description_label')}</FormLabel>
+                      <FormControl><Textarea placeholder={t('field_activity_plan.activity_description_placeholder')} {...formField} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -131,15 +134,15 @@ export function FieldActivityPlan({ field }: FieldActivityPlanProps) {
                   name="date"
                   render={({ field: formField }) => (
                     <FormItem>
-                      <FormLabel>Date</FormLabel>
+                      <FormLabel>{t('field_activity_plan.activity_date_label')}</FormLabel>
                       <FormControl><Input type="date" {...formField} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
                 <DialogFooter>
-                  <Button type="button" variant="outline" onClick={() => setIsAddActivityDialogOpen(false)}>Cancel</Button>
-                  <Button type="submit">Add Activity</Button>
+                  <Button type="button" variant="outline" onClick={() => setIsAddActivityDialogOpen(false)}>{t('field_form.cancel_button')}</Button>
+                  <Button type="submit">{t('field_activity_plan.add_button_short', 'Add Activity')}</Button>
                 </DialogFooter>
               </form>
             </Form>
@@ -149,3 +152,4 @@ export function FieldActivityPlan({ field }: FieldActivityPlanProps) {
     </Card>
   );
 }
+

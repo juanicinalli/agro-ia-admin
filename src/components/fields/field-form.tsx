@@ -13,10 +13,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useRouter } from 'next/navigation';
 import { FileEdit, PlusSquare, Leaf, Droplets, ClipboardList, Image as ImageIcon, MapPin, Edit, CheckCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
-const CROP_TYPES = ["Corn", "Soybeans", "Wheat", "Barley", "Canola", "Potatoes", "Sugar Beets", "Cotton", "Sorghum", "Sunflower", "Rice", "Oats", "Rye", "Alfalfa", "Lentils", "Peas"];
-const FIELD_STATUSES = ["Planted", "Growing", "Harvesting", "Fallow", "Preparing", "Tillage", "Irrigating", "Pre-Planting", "Post-Harvest", "Seedling", "Flowering", "Maturing"];
-const SOIL_TYPES = ["Sandy", "Silty", "Clay", "Loamy", "Peaty", "Chalky", "Clay Loam", "Sandy Loam", "Silty Loam", "Loamy Sand", "Sandy Clay", "Silty Clay", "Peat Loam"];
+const CROP_TYPES = ["Corn", "Soybeans", "Wheat", "Barley", "Canola", "Potatoes", "Sugar Beets", "Cotton", "Sorghum", "Sunflower", "Rice", "Oats", "Rye", "Alfalfa", "Lentils", "Peas", "Fava Beans", "Chickpeas", "Hemp", "Flax", "Mustard", "Triticale", "Millet", "Buckwheat", "Quinoa", "Amaranth", "Hops", "Various Vegetables", "Mixed Fruits"];
+const FIELD_STATUSES = ["Planted", "Growing", "Harvesting", "Fallow", "Preparing", "Tillage", "Irrigating", "Pre-Planting", "Post-Harvest", "Seedling", "Vegetative", "Flowering", "Fruiting", "Maturing", "Dormant", "Cover Crop"];
+const SOIL_TYPES = ["Sandy", "Silty", "Clay", "Loamy", "Peaty", "Chalky", "Clay Loam", "Sandy Loam", "Silty Loam", "Loamy Sand", "Sandy Clay", "Silty Clay", "Peat Loam", "Gravelly", "Rocky", "Laterite"];
 
 const fieldSchema = z.object({
   name: z.string().min(3, { message: "Field name must be at least 3 characters." }),
@@ -37,6 +38,7 @@ interface FieldFormProps {
 
 export function FieldForm({ initialData, onSubmit, isEditing = false }: FieldFormProps) {
   const router = useRouter();
+  const { t } = useTranslation();
   const form = useForm<FieldFormData>({
     resolver: zodResolver(fieldSchema),
     defaultValues: {
@@ -58,10 +60,10 @@ export function FieldForm({ initialData, onSubmit, isEditing = false }: FieldFor
       <CardHeader>
         <CardTitle className="text-2xl font-headline flex items-center">
           {isEditing ? <FileEdit className="mr-3 h-7 w-7 text-primary" /> : <PlusSquare className="mr-3 h-7 w-7 text-primary" />}
-          {isEditing ? 'Edit Field' : 'Add New Field'}
+          {isEditing ? t('field_form.edit_title') : t('field_form.add_title')}
         </CardTitle>
         <CardDescription>
-          {isEditing ? 'Update the details of your field.' : 'Enter the details for your new field.'}
+          {isEditing ? t('field_form.edit_description') : t('field_form.add_description')}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -72,9 +74,9 @@ export function FieldForm({ initialData, onSubmit, isEditing = false }: FieldFor
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="flex items-center"><Edit className="mr-2 h-4 w-4 text-muted-foreground" />Field Name</FormLabel>
+                  <FormLabel className="flex items-center"><Edit className="mr-2 h-4 w-4 text-muted-foreground" />{t('field_form.name_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., North Paddock" {...field} />
+                    <Input placeholder={t('field_form.name_placeholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -86,9 +88,9 @@ export function FieldForm({ initialData, onSubmit, isEditing = false }: FieldFor
               name="area"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="flex items-center"><MapPin className="mr-2 h-4 w-4 text-muted-foreground" />Area (acres)</FormLabel>
+                  <FormLabel className="flex items-center"><MapPin className="mr-2 h-4 w-4 text-muted-foreground" />{t('field_form.area_label')}</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="e.g., 120" {...field} />
+                    <Input type="number" placeholder={t('field_form.area_placeholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -100,11 +102,11 @@ export function FieldForm({ initialData, onSubmit, isEditing = false }: FieldFor
               name="cropType"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="flex items-center"><Leaf className="mr-2 h-4 w-4 text-muted-foreground" />Crop Type</FormLabel>
+                  <FormLabel className="flex items-center"><Leaf className="mr-2 h-4 w-4 text-muted-foreground" />{t('field_form.crop_type_label')}</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a crop type" />
+                        <SelectValue placeholder={t('field_form.crop_type_placeholder')} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -123,11 +125,11 @@ export function FieldForm({ initialData, onSubmit, isEditing = false }: FieldFor
               name="soilType"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="flex items-center"><Droplets className="mr-2 h-4 w-4 text-muted-foreground" />Soil Type</FormLabel>
+                  <FormLabel className="flex items-center"><Droplets className="mr-2 h-4 w-4 text-muted-foreground" />{t('field_form.soil_type_label')}</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a soil type" />
+                        <SelectValue placeholder={t('field_form.soil_type_placeholder')} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -146,11 +148,11 @@ export function FieldForm({ initialData, onSubmit, isEditing = false }: FieldFor
               name="status"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="flex items-center"><ClipboardList className="mr-2 h-4 w-4 text-muted-foreground" />Field Status</FormLabel>
+                  <FormLabel className="flex items-center"><ClipboardList className="mr-2 h-4 w-4 text-muted-foreground" />{t('field_form.status_label')}</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select field status" />
+                        <SelectValue placeholder={t('field_form.status_placeholder')} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -169,11 +171,11 @@ export function FieldForm({ initialData, onSubmit, isEditing = false }: FieldFor
               name="imageUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="flex items-center"><ImageIcon className="mr-2 h-4 w-4 text-muted-foreground" />Image URL (Optional)</FormLabel>
+                  <FormLabel className="flex items-center"><ImageIcon className="mr-2 h-4 w-4 text-muted-foreground" />{t('field_form.image_url_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="https://placehold.co/600x400.png" {...field} />
+                    <Input placeholder={t('field_form.image_url_placeholder')} {...field} />
                   </FormControl>
-                  <FormDescription>Enter a URL for the field image. Use https://placehold.co for placeholders.</FormDescription>
+                  <FormDescription>{t('field_form.image_url_description')}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -181,11 +183,13 @@ export function FieldForm({ initialData, onSubmit, isEditing = false }: FieldFor
             
             <div className="flex justify-end gap-4 pt-4">
               <Button type="button" variant="outline" onClick={() => router.back()}>
-                Cancel
+                {t('field_form.cancel_button')}
               </Button>
               <Button type="submit" disabled={form.formState.isSubmitting}>
                 <CheckCircle className="mr-2 h-5 w-5"/>
-                {form.formState.isSubmitting ? (isEditing ? 'Saving...' : 'Adding...') : (isEditing ? 'Save Changes' : 'Add Field')}
+                {form.formState.isSubmitting 
+                  ? (isEditing ? t('field_form.saving_button') : t('field_form.adding_button')) 
+                  : (isEditing ? t('field_form.save_button') : t('field_form.add_button'))}
               </Button>
             </div>
           </form>
@@ -194,3 +198,4 @@ export function FieldForm({ initialData, onSubmit, isEditing = false }: FieldFor
     </Card>
   );
 }
+

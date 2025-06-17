@@ -8,17 +8,18 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useApp } from '@/contexts/app-provider';
-import { Eye, Wheat, BrainCircuit } from 'lucide-react';
+import { Wheat, BrainCircuit } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export function LoginForm() {
   const [email, setEmail] = useState('demo@agrovision.ai');
   const [password, setPassword] = useState('password');
   const router = useRouter();
   const { login } = useApp();
+  const { t } = useTranslation();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you'd validate credentials here
     login();
     router.replace('/dashboard/fields');
   };
@@ -30,8 +31,8 @@ export function LoginForm() {
           <Wheat className="h-10 w-10 text-primary" />
           <BrainCircuit className="h-10 w-10 text-primary" />
         </div>
-        <CardTitle className="text-3xl font-headline">Welcome to AgroVision AI</CardTitle>
-        <CardDescription>Sign in to manage your fields and get AI insights.</CardDescription>
+        <CardTitle className="text-3xl font-headline">{t('login_page.title')}</CardTitle>
+        <CardDescription>{t('login_page.description')}</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -60,15 +61,16 @@ export function LoginForm() {
             />
           </div>
           <Button type="submit" className="w-full text-lg py-6">
-            Login
+            {t('login_page.login_button', 'Login')}
           </Button>
         </form>
       </CardContent>
       <CardFooter className="text-center text-sm">
         <p className="text-muted-foreground">
-          Use demo@agrovision.ai / password for demo access.
+          {t('login_page.demo_access')}
         </p>
       </CardFooter>
     </Card>
   );
 }
+

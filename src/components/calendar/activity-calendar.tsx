@@ -10,6 +10,8 @@ import { Badge } from '@/components/ui/badge';
 import { format, parseISO, isSameDay, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMonths, isToday } from 'date-fns';
 import { Button } from '../ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { getLang } from '@/lib/locale-helper'; // Helper for date-fns locale
 
 interface ActivityCalendarProps {
   activities: Activity[];
@@ -18,33 +20,35 @@ interface ActivityCalendarProps {
 export function ActivityCalendar({ activities }: ActivityCalendarProps) {
   const [currentMonthDate, setCurrentMonthDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const { t, i18n } = useTranslation();
+  const dateFnsLocale = getLang(i18n.language);
 
   const activitiesByDate = useMemo(() => {
     const map = new Map<string, Activity[]>();
     activities.forEach(activity => {
-      const dateStr = format(parseISO(activity.date), 'yyyy-MM-dd');
+      const dateStr = format(parseISO(activity.date), 'yyyy-MM-dd', { locale: dateFnsLocale });
       if (!map.has(dateStr)) {
         map.set(dateStr, []);
       }
       map.get(dateStr)?.push(activity);
     });
     return map;
-  }, [activities]);
+  }, [activities, dateFnsLocale]);
 
   const selectedDateActivities = useMemo(() => {
     if (!selectedDate) return [];
-    const dateStr = format(selectedDate, 'yyyy-MM-dd');
+    const dateStr = format(selectedDate, 'yyyy-MM-dd', { locale: dateFnsLocale });
     return activitiesByDate.get(dateStr) || [];
-  }, [selectedDate, activitiesByDate]);
+  }, [selectedDate, activitiesByDate, dateFnsLocale]);
 
   const daysInMonthWithEvents = useMemo(() => {
     const start = startOfMonth(currentMonthDate);
     const end = endOfMonth(currentMonthDate);
     return eachDayOfInterval({ start, end }).map(day => ({
       date: day,
-      hasEvent: activitiesByDate.has(format(day, 'yyyy-MM-dd')),
+      hasEvent: activitiesByDate.has(format(day, 'yyyy-MM-dd', { locale: dateFnsLocale })),
     }));
-  }, [currentMonthDate, activitiesByDate]);
+  }, [currentMonthDate, activitiesByDate, dateFnsLocale]);
 
   const handleMonthChange = (month: Date) => {
     setCurrentMonthDate(month);
@@ -63,14 +67,14 @@ export function ActivityCalendar({ activities }: ActivityCalendarProps) {
       <Card className="md:col-span-2 shadow-lg">
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle className="text-2xl font-headline">{format(currentMonthDate, 'MMMM yyyy')}</CardTitle>
-            <CardDescription>Select a day to view activities.</CardDescription>
+            <CardTitle className="text-2xl font-headline">{format(currentMonthDate, 'MMMM yyyy', { locale: dateFnsLocale })}</CardTitle>
+            <CardDescription>{t('calendar_page.select_day_description')}</CardDescription>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="icon" onClick={goToPreviousMonth} aria-label="Previous month">
+            <Button variant="outline" size="icon" onClick={goToPreviousMonth} aria-label={t('calendar_page.previous_month')}>
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            <Button variant="outline" size="icon" onClick={goToNextMonth} aria-label="Next month">
+            <Button variant="outline" size="icon" onClick={goToNextMonth} aria-label={t('calendar_page.next_month')}>
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
@@ -83,6 +87,7 @@ export function ActivityCalendar({ activities }: ActivityCalendarProps) {
             month={currentMonthDate}
             onMonthChange={handleMonthChange}
             className="p-0"
+            locale={dateFnsLocale}
             modifiers={{ 
               event: daysInMonthWithEvents.filter(d => d.hasEvent).map(d => d.date),
               today: new Date()
@@ -91,7 +96,6 @@ export function ActivityCalendar({ activities }: ActivityCalendarProps) {
               event: "border-primary border-2 rounded-md",
               today: "bg-accent text-accent-foreground rounded-md"
             }}
-            
           />
         </CardContent>
       </Card>
@@ -99,12 +103,12 @@ export function ActivityCalendar({ activities }: ActivityCalendarProps) {
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="text-xl font-headline">
-            {selectedDate ? format(selectedDate, 'MMMM d, yyyy') : 'No Date Selected'}
+            {selectedDate ? format(selectedDate, 'MMMM d, yyyy', { locale: dateFnsLocale }) : t('calendar_page.no_date_selected')}
           </CardTitle>
           <CardDescription>
             {selectedDateActivities.length > 0 
-              ? `${selectedDateActivities.length} activit${selectedDateActivities.length === 1 ? 'y' : 'ies'} scheduled.`
-              : 'No activities for this day.'}
+              ? t('calendar_page.activities_scheduled_plural', { count: selectedDateActivities.length })
+              : t('calendar_page.no_activities_for_day')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -116,7 +120,7 @@ export function ActivityCalendar({ activities }: ActivityCalendarProps) {
                     <div className="flex justify-between items-center">
                       <p className="font-semibold text-sm">{activity.title}</p>
                       <Badge variant={activity.type === 'ai-derived' ? 'default' : 'secondary'} className="text-xs">
-                        {activity.type === 'ai-derived' ? 'AI' : 'Manual'}
+                        {activity.type === 'ai-derived' ? t('calendar_page.activity_type_ai') : t('calendar_page.activity_type_manual')}
                       </Badge>
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">{activity.description}</p>
@@ -125,7 +129,7 @@ export function ActivityCalendar({ activities }: ActivityCalendarProps) {
               </ul>
             ) : (
               <p className="text-sm text-muted-foreground text-center py-10">
-                {selectedDate ? 'No activities scheduled.' : 'Select a date to see activities.'}
+                {selectedDate ? t('calendar_page.no_activities_placeholder') : t('calendar_page.select_date_placeholder')}
               </p>
             )}
           </ScrollArea>
@@ -134,3 +138,4 @@ export function ActivityCalendar({ activities }: ActivityCalendarProps) {
     </div>
   );
 }
+

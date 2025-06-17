@@ -137,15 +137,13 @@
   },
   "stock_page": {
     "title": "Gestione Scorte",
-    "add_new_stock_type_button": "Aggiungi Nuovo Tipo di Scorta",
+    "add_new_stock_type_button_new": "Nuovo Tipo di Grano",
     "current_quantity_description": "Quantità Attuale: {{quantity}} {{unit}}",
-    "add_stock_button": "Aggiungi Scorta",
-    "remove_stock_button": "Rimuovi Scorta",
-    "add_stock_modal_title": "Aggiungi Scorta a {{grainType}}",
-    "add_stock_modal_description": "Inserisci i dettagli per l'aggiunta di scorte (in {{unit}}).",
+    "add_stock_button_new": "Registra Entrata",
+    "remove_stock_button_new": "Registra Uscita",
+    "add_stock_modal_title_new": "Registra Entrata per {{grainType}}",
     "add_stock_modal_description_transaction": "Inserisci la quantità e seleziona la sua unità per questa transazione.",
-    "remove_stock_modal_title": "Rimuovi Scorta da {{grainType}}",
-    "remove_stock_modal_description": "Inserisci i dettagli per la rimozione di scorte (in {{unit}}).",
+    "remove_stock_modal_title_new": "Registra Uscita per {{grainType}}",
     "remove_stock_modal_description_transaction": "Inserisci la quantità e seleziona la sua unità per questa transazione.",
     "new_stock_type_modal_title": "Crea Nuovo Tipo di Scorta",
     "new_stock_type_modal_description": "Inserisci i dettagli per il nuovo tipo di scorta di grano.",
@@ -190,7 +188,15 @@
       "wheat": "Grano",
       "corn": "Mais",
       "soybeans": "Soia"
-    }
+    },
+    "delete_stock_item_dialog_title": "Elimina Tipo di Grano?",
+    "delete_stock_item_dialog_description": "Questo eliminerà permanentemente il tipo di grano '{{grainType}}'. Questa azione non può essere annullata.",
+    "delete_button_confirm": "Elimina",
+    "toast_stock_type_deleted": {
+      "title": "Tipo di Grano Eliminato",
+      "description": "Il tipo di grano {{grainType}} è stato eliminato."
+    },
+    "delete_stock_item_aria_label": "Elimina {{grainType}}"
   },
   "fields_page": {
     "title": "I Miei Campi",
@@ -204,3 +210,5 @@
     "it": "Italiano"
   }
 }
+
+    

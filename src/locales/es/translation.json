@@ -137,15 +137,13 @@
   },
   "stock_page": {
     "title": "Gestión de Inventario",
-    "add_new_stock_type_button": "Agregar Nuevo Tipo de Inventario",
+    "add_new_stock_type_button_new": "Nuevo Tipo de Grano",
     "current_quantity_description": "Cantidad Actual: {{quantity}} {{unit}}",
-    "add_stock_button": "Agregar Inventario",
-    "remove_stock_button": "Remover Inventario",
-    "add_stock_modal_title": "Agregar Inventario a {{grainType}}",
-    "add_stock_modal_description": "Ingresa los detalles para la adición de inventario (en {{unit}}).",
+    "add_stock_button_new": "Registrar Entrada",
+    "remove_stock_button_new": "Registrar Salida",
+    "add_stock_modal_title_new": "Registrar Entrada de {{grainType}}",
     "add_stock_modal_description_transaction": "Ingresa la cantidad y selecciona su unidad para esta transacción.",
-    "remove_stock_modal_title": "Remover Inventario de {{grainType}}",
-    "remove_stock_modal_description": "Ingresa los detalles para la remoción de inventario (en {{unit}}).",
+    "remove_stock_modal_title_new": "Registrar Salida de {{grainType}}",
     "remove_stock_modal_description_transaction": "Ingresa la cantidad y selecciona su unidad para esta transacción.",
     "new_stock_type_modal_title": "Crear Nuevo Tipo de Inventario",
     "new_stock_type_modal_description": "Ingresa los detalles para el nuevo tipo de inventario de granos.",
@@ -190,7 +188,15 @@
       "wheat": "Trigo",
       "corn": "Maíz",
       "soybeans": "Soja"
-    }
+    },
+    "delete_stock_item_dialog_title": "¿Eliminar Tipo de Grano?",
+    "delete_stock_item_dialog_description": "Esto eliminará permanentemente el tipo de grano '{{grainType}}'. Esta acción no se puede deshacer.",
+    "delete_button_confirm": "Eliminar",
+    "toast_stock_type_deleted": {
+      "title": "Tipo de Grano Eliminado",
+      "description": "El tipo de grano {{grainType}} ha sido eliminado."
+    },
+    "delete_stock_item_aria_label": "Eliminar {{grainType}}"
   },
   "fields_page": {
     "title": "Mis Campos",
@@ -204,3 +210,5 @@
     "it": "Italiano"
   }
 }
+
+    

@@ -50,7 +50,7 @@ export function SidebarNav() {
 
   const currentLanguage = 
     languageOptions.find(opt => i18n.language && i18n.language.startsWith(opt.code)) || 
-    languageOptions.find(opt => opt.code === i18n.options.fallbackLng) || 
+    languageOptions.find(opt => opt.code === i18n.options.fallbackLng as string) || 
     languageOptions[0];
 
   const changeLanguage = (lng: string) => {
@@ -80,6 +80,7 @@ export function SidebarNav() {
                       <SidebarMenuButton
                         isActive={pathname.startsWith(item.href)}
                         className="justify-start"
+                        // No asChild here, SidebarMenuButton will render <a> if href is passed by Link
                       >
                         <item.icon className="h-5 w-5" />
                         <span className="group-data-[collapsible=icon]:hidden">{t(item.labelKey)}</span>
@@ -169,5 +170,3 @@ export function SidebarNav() {
     </div>
   );
 }
-
-    

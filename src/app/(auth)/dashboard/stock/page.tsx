@@ -158,7 +158,7 @@ export default function StockPage() {
               <CardDescription>Current Quantity: {stock.quantity}</CardDescription>
             </CardHeader>
             <CardFooter className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => handleAddStockClick(stock)}>Add Stock</Button>
+              <Button variant="outline" onClick={() => handleAddStockClick(stock)}>Agregar Stock</Button>
               <Button variant="outline" onClick={() => handleRemoveStockClick(stock)}>Remove Stock</Button>
             </CardFooter>
           </Card>

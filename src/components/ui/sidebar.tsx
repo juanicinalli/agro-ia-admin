@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -543,53 +544,59 @@ const SidebarMenuButton = React.forwardRef<
 >(
   (
     {
-      asChild = false,
+      asChild: ownAsChildProp, // Use a different name for the prop
       isActive = false,
       variant = "default",
       size = "default",
       tooltip,
       className,
-      ...props
+      ...restProps // Contains all other props, including potentially 'asChild' from a parent
     },
     ref
   ) => {
-    const Comp = asChild ? Slot : "button"
-    const { isMobile, state } = useSidebar()
+    const Comp = ownAsChildProp ? Slot : "button";
+    const { isMobile, state } = useSidebar();
 
-    const button = (
+    let propsForComp = restProps;
+    // If this component is meant to be a Slot (ownAsChildProp is true),
+    // and it also received an 'asChild' prop from its parent (e.g., Link),
+    // we should not pass that parent's 'asChild' prop to the Slot component itself.
+    // The Slot component will take its children and apply other props.
+    if (ownAsChildProp && typeof restProps.asChild !== 'undefined') {
+      const { asChild: asChildFromParent, ...otherParentProps } = restProps;
+      propsForComp = otherParentProps;
+    }
+
+    const buttonElement = (
       <Comp
         ref={ref}
         data-sidebar="menu-button"
         data-size={size}
         data-active={isActive}
         className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
-        {...props}
+        {...propsForComp}
       />
-    )
+    );
 
     if (!tooltip) {
-      return button
+      return buttonElement;
     }
 
-    if (typeof tooltip === "string") {
-      tooltip = {
-        children: tooltip,
-      }
-    }
+    const tooltipProps = typeof tooltip === "string" ? { children: tooltip } : tooltip;
 
     return (
       <Tooltip>
-        <TooltipTrigger asChild>{button}</TooltipTrigger>
+        <TooltipTrigger asChild>{buttonElement}</TooltipTrigger>
         <TooltipContent
           side="right"
           align="center"
           hidden={state !== "collapsed" || isMobile}
-          {...tooltip}
+          {...tooltipProps}
         />
       </Tooltip>
-    )
+    );
   }
-)
+);
 SidebarMenuButton.displayName = "SidebarMenuButton"
 
 const SidebarMenuAction = React.forwardRef<
@@ -761,3 +768,4 @@ export {
   SidebarTrigger,
   useSidebar,
 }
+

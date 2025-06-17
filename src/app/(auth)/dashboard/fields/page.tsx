@@ -14,13 +14,12 @@ export default function FieldsDashboardPage() {
     <div className="container mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-headline font-semibold">My Fields</h1>
-        <Link href="/dashboard/fields/new" passHref>
+        <Link href="/dashboard/fields/new" passHref legacyBehavior>
           <Button asChild>
             <PlusCircle className="mr-2 h-5 w-5" /> Add New Field
           </Button>
         </Link>
       </div>
-
       {fields.length === 0 ? (
         <div className="text-center py-10">
           <p className="text-xl text-muted-foreground">No fields found.</p>

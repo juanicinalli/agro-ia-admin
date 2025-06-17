@@ -21,19 +21,21 @@ export function SidebarNav() {
   return (
     <div className="flex flex-col h-full">
       <div className="p-4 border-b border-sidebar-border">
-        <Link href="/dashboard/fields" className="flex items-center gap-2">
-          <Wheat className="h-8 w-8 text-primary" />
-          <BrainCircuit className="h-7 w-7 text-primary" />
-          <h1 className="text-2xl font-headline font-semibold text-sidebar-foreground group-data-[collapsible=icon]:hidden">AgroVision AI</h1>
+        <Link href="/dashboard/fields" asChild>
+          <a className="flex items-center gap-2">
+            <Wheat className="h-8 w-8 text-primary" />
+            <BrainCircuit className="h-7 w-7 text-primary" />
+            <h1 className="text-2xl font-headline font-semibold text-sidebar-foreground group-data-[collapsible=icon]:hidden">AgroVision AI</h1>
+          </a>
         </Link>
       </div>
       <nav className="flex-grow p-2">
         <SidebarMenu>
- {navItems.map((item) => (
+          {navItems.map((item) => (
             <SidebarMenuItem key={item.href}>
- <Link href={item.href} legacyBehavior passHref>
- <SidebarMenuButton
- isActive={pathname.startsWith(item.href)}
+              <Link href={item.href} asChild>
+                <SidebarMenuButton
+                  isActive={pathname.startsWith(item.href)}
                   tooltip={item.label}
                   className="justify-start"
                 >

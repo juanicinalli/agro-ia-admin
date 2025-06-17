@@ -60,13 +60,13 @@ export function FieldCard({ field }: FieldCardProps) {
         </div>
       </CardContent>
       <CardFooter className="p-4 border-t flex justify-between items-center gap-2">
-        <Link href={`/dashboard/fields/${field.id}`} passHref legacyBehavior>
+        <Link href={`/dashboard/fields/${field.id}`} asChild>
           <Button variant="outline" size="sm" aria-label={`View details for ${field.name}`}>
             <Eye className="mr-2 h-4 w-4" /> View
           </Button>
         </Link>
         <div className="flex gap-2">
-          <Link href={`/dashboard/fields/${field.id}/edit`} passHref legacyBehavior>
+          <Link href={`/dashboard/fields/${field.id}/edit`} asChild>
             <Button variant="ghost" size="icon" aria-label={`Edit ${field.name}`}>
               <Edit3 className="h-5 w-5" />
             </Button>

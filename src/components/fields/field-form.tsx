@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useRouter } from 'next/navigation';
-import { FileEdit2, PlusSquare, Leaf, Droplets, ClipboardList, Image as ImageIcon, MapPin, Edit, CheckCircle } from 'lucide-react';
+import { FileEdit, PlusSquare, Leaf, Droplets, ClipboardList, Image as ImageIcon, MapPin, Edit, CheckCircle } from 'lucide-react';
 
 const CROP_TYPES = ["Corn", "Soybeans", "Wheat", "Barley", "Canola", "Potatoes", "Sugar Beets", "Cotton", "Sorghum", "Sunflower", "Rice", "Oats", "Rye", "Alfalfa", "Lentils", "Peas"];
 const FIELD_STATUSES = ["Planted", "Growing", "Harvesting", "Fallow", "Preparing", "Tillage", "Irrigating", "Pre-Planting", "Post-Harvest", "Seedling", "Flowering", "Maturing"];
@@ -57,7 +57,7 @@ export function FieldForm({ initialData, onSubmit, isEditing = false }: FieldFor
     <Card className="max-w-2xl mx-auto shadow-xl">
       <CardHeader>
         <CardTitle className="text-2xl font-headline flex items-center">
-          {isEditing ? <FileEdit2 className="mr-3 h-7 w-7 text-primary" /> : <PlusSquare className="mr-3 h-7 w-7 text-primary" />}
+          {isEditing ? <FileEdit className="mr-3 h-7 w-7 text-primary" /> : <PlusSquare className="mr-3 h-7 w-7 text-primary" />}
           {isEditing ? 'Edit Field' : 'Add New Field'}
         </CardTitle>
         <CardDescription>

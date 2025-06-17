@@ -7,31 +7,24 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon, PackagePlus, ArrowUpCircle, ArrowDownCircle, Package, ShoppingBag, Truck } from 'lucide-react';
+import { Calendar as CalendarIcon, PackagePlus, ArrowUpCircle, ArrowDownCircle, Package, ShoppingBag, Truck, Weight } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { getLang } from '@/lib/locale-helper'; // Helper for date-fns locale
 import { useToast } from '@/hooks/use-toast';
+import type { StockItem } from '@/lib/types';
 
-interface StockItem {
-  id: string;
-  grainType: string;
-  quantity: number;
-}
 
-interface Transaction {
-  type: 'add' | 'remove';
-  quantity: number;
-  location: string;
-  date: Date;
-}
+const WEIGHT_UNITS = ["kg", "tonnes", "lbs", "bushels"];
 
 interface NewStockData {
   grainType: string;
   initialQuantity: number;
+  unit: string;
 }
 
 export default function StockPage() {
@@ -40,9 +33,9 @@ export default function StockPage() {
   const dateFnsLocale = getLang(i18n.language);
 
   const [grainStock, setGrainStock] = useState<StockItem[]>([
-    { id: '1', grainType: 'Wheat', quantity: 1000 },
-    { id: '2', grainType: 'Corn', quantity: 1500 },
-    { id: '3', grainType: 'Soybeans', quantity: 800 },
+    { id: '1', grainType: 'Wheat', quantity: 1000, unit: 'kg' },
+    { id: '2', grainType: 'Corn', quantity: 1500, unit: 'bushels' },
+    { id: '3', grainType: 'Soybeans', quantity: 800, unit: 'tonnes' },
   ]);
 
   const [selectedStock, setSelectedStock] = useState<StockItem | null>(null);
@@ -59,7 +52,7 @@ export default function StockPage() {
   }, []);
 
 
-  const [newStockData, setNewStockData] = useState<NewStockData>({ grainType: '', initialQuantity: 0 });
+  const [newStockData, setNewStockData] = useState<NewStockData>({ grainType: '', initialQuantity: 0, unit: '' });
 
   const handleAddStockClick = (stock: StockItem) => {
     setSelectedStock(stock);
@@ -74,7 +67,7 @@ export default function StockPage() {
   };
 
   const handleAddNewStockClick = () => {
-    setNewStockData({ grainType: '', initialQuantity: 0 });
+    setNewStockData({ grainType: '', initialQuantity: 0, unit: WEIGHT_UNITS[0] }); // Default to the first unit
     setIsNewStockModalOpen(true);
   };
 
@@ -91,7 +84,7 @@ export default function StockPage() {
       stock.id === selectedStock.id ? { ...stock, quantity: stock.quantity + quantity } : stock
     ));
     
-    toast({ title: t('stock_page.toast_stock_added.title'), description: t('stock_page.toast_stock_added.description', { quantity, grainType: selectedStock.grainType }) });
+    toast({ title: t('stock_page.toast_stock_added.title'), description: t('stock_page.toast_stock_added.description', { quantity, grainType: selectedStock.grainType, unit: selectedStock.unit }) });
     setIsAddModalOpen(false);
   };
 
@@ -113,12 +106,12 @@ export default function StockPage() {
       stock.id === selectedStock.id ? { ...stock, quantity: stock.quantity - quantity } : stock
     ));
     
-    toast({ title: t('stock_page.toast_stock_removed.title'), description: t('stock_page.toast_stock_removed.description', { quantity, grainType: selectedStock.grainType }) });
+    toast({ title: t('stock_page.toast_stock_removed.title'), description: t('stock_page.toast_stock_removed.description', { quantity, grainType: selectedStock.grainType, unit: selectedStock.unit }) });
     setIsRemoveModalOpen(false);
   };
 
   const handleCreateNewStock = () => {
-    if (!newStockData.grainType || newStockData.initialQuantity < 0) {
+    if (!newStockData.grainType || newStockData.initialQuantity < 0 || !newStockData.unit) {
       toast({ title: t('toast.error.title'), description: t('stock_page.invalid_new_stock_data_alert'), variant: "destructive" });
       return;
     }
@@ -127,6 +120,7 @@ export default function StockPage() {
       id: Date.now().toString(), 
       grainType: newStockData.grainType,
       quantity: newStockData.initialQuantity,
+      unit: newStockData.unit,
     };
 
     setGrainStock([...grainStock, newStockItem]);
@@ -157,7 +151,7 @@ export default function StockPage() {
                 <ShoppingBag className="mr-2 h-5 w-5 text-primary" />
                 {stock.grainType}
               </CardTitle>
-              <CardDescription>{t('stock_page.current_quantity_description', { quantity: stock.quantity })}</CardDescription>
+              <CardDescription>{t('stock_page.current_quantity_description', { quantity: stock.quantity, unit: t(`stock_page.units.${stock.unit.toLowerCase()}`) })}</CardDescription>
             </CardHeader>
             <CardFooter className="flex flex-col sm:flex-row sm:justify-end gap-2">
               <Button variant="outline" onClick={() => handleAddStockClick(stock)} className="w-full sm:w-auto">
@@ -178,7 +172,7 @@ export default function StockPage() {
               <Package className="mr-2 h-5 w-5 text-primary" /> {t('stock_page.add_stock_modal_title', { grainType: selectedStock?.grainType })}
             </DialogTitle>
             <DialogDescription>
-              {t('stock_page.add_stock_modal_description')}
+               {t('stock_page.add_stock_modal_description', { unit: selectedStock ? t(`stock_page.units.${selectedStock.unit.toLowerCase()}`) : '' })}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -252,7 +246,7 @@ export default function StockPage() {
               <Truck className="mr-2 h-5 w-5 text-primary" /> {t('stock_page.remove_stock_modal_title', { grainType: selectedStock?.grainType })}
             </DialogTitle>
             <DialogDescription>
-              {t('stock_page.remove_stock_modal_description')}
+              {t('stock_page.remove_stock_modal_description', { unit: selectedStock ? t(`stock_page.units.${selectedStock.unit.toLowerCase()}`) : '' })}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -354,6 +348,27 @@ export default function StockPage() {
                 className="col-span-3"
                 placeholder={t('stock_page.initial_quantity_placeholder')}
               />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="new-stock-unit" className="text-right flex items-center">
+                <Weight className="mr-1 h-4 w-4 text-muted-foreground" />
+                {t('stock_page.unit_label')}
+              </Label>
+              <Select
+                value={newStockData.unit}
+                onValueChange={(value) => setNewStockData({ ...newStockData, unit: value })}
+              >
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder={t('stock_page.unit_placeholder')} />
+                </SelectTrigger>
+                <SelectContent>
+                  {WEIGHT_UNITS.map((unitValue) => (
+                    <SelectItem key={unitValue} value={unitValue}>
+                      {t(`stock_page.units.${unitValue.toLowerCase()}`)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <DialogFooter>

@@ -138,13 +138,13 @@
   "stock_page": {
     "title": "Stock Management",
     "add_new_stock_type_button": "Add New Stock Type",
-    "current_quantity_description": "Current Quantity: {{quantity}} units",
+    "current_quantity_description": "Current Quantity: {{quantity}} {{unit}}",
     "add_stock_button": "Add Stock",
     "remove_stock_button": "Remove Stock",
     "add_stock_modal_title": "Add Stock to {{grainType}}",
-    "add_stock_modal_description": "Enter the details for the stock addition.",
+    "add_stock_modal_description": "Enter the details for the stock addition (in {{unit}}).",
     "remove_stock_modal_title": "Remove Stock from {{grainType}}",
-    "remove_stock_modal_description": "Enter the details for the stock removal.",
+    "remove_stock_modal_description": "Enter the details for the stock removal (in {{unit}}).",
     "new_stock_type_modal_title": "Create New Stock Type",
     "new_stock_type_modal_description": "Enter the details for the new grain stock type.",
     "quantity_label": "Quantity",
@@ -160,21 +160,29 @@
     "grain_type_placeholder": "e.g., Barley",
     "initial_quantity_label": "Initial Quantity",
     "initial_quantity_placeholder": "e.g., 500",
+    "unit_label": "Unit",
+    "unit_placeholder": "Select unit",
     "create_stock_type_button": "Create Stock Type",
     "invalid_quantity_alert": "Invalid quantity.",
     "not_enough_stock_alert": "Not enough stock.",
-    "invalid_new_stock_data_alert": "Invalid new stock data.",
+    "invalid_new_stock_data_alert": "Invalid new stock data. Please fill all fields including unit.",
     "toast_stock_added": {
       "title": "Stock Added",
-      "description": "{{quantity}} units of {{grainType}} added."
+      "description": "{{quantity}} {{unit}} of {{grainType}} added."
     },
     "toast_stock_removed": {
       "title": "Stock Removed",
-      "description": "{{quantity}} units of {{grainType}} removed."
+      "description": "{{quantity}} {{unit}} of {{grainType}} removed."
     },
     "toast_stock_type_created": {
       "title": "Stock Type Created",
       "description": "{{grainType}} stock type has been created."
+    },
+    "units": {
+      "kg": "Kilograms",
+      "tonnes": "Tonnes",
+      "lbs": "Pounds",
+      "bushels": "Bushels"
     }
   },
   "fields_page": {

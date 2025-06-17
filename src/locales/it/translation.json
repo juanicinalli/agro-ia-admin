@@ -138,13 +138,13 @@
   "stock_page": {
     "title": "Gestione Scorte",
     "add_new_stock_type_button": "Aggiungi Nuovo Tipo di Scorta",
-    "current_quantity_description": "Quantità Attuale: {{quantity}} unità",
+    "current_quantity_description": "Quantità Attuale: {{quantity}} {{unit}}",
     "add_stock_button": "Aggiungi Scorta",
     "remove_stock_button": "Rimuovi Scorta",
     "add_stock_modal_title": "Aggiungi Scorta a {{grainType}}",
-    "add_stock_modal_description": "Inserisci i dettagli per l'aggiunta di scorte.",
+    "add_stock_modal_description": "Inserisci i dettagli per l'aggiunta di scorte (in {{unit}}).",
     "remove_stock_modal_title": "Rimuovi Scorta da {{grainType}}",
-    "remove_stock_modal_description": "Inserisci i dettagli per la rimozione di scorte.",
+    "remove_stock_modal_description": "Inserisci i dettagli per la rimozione di scorte (in {{unit}}).",
     "new_stock_type_modal_title": "Crea Nuovo Tipo di Scorta",
     "new_stock_type_modal_description": "Inserisci i dettagli per il nuovo tipo di scorta di grano.",
     "quantity_label": "Quantità",
@@ -160,21 +160,29 @@
     "grain_type_placeholder": "Es: Orzo",
     "initial_quantity_label": "Quantità Iniziale",
     "initial_quantity_placeholder": "Es: 500",
+    "unit_label": "Unità",
+    "unit_placeholder": "Seleziona unità",
     "create_stock_type_button": "Crea Tipo di Scorta",
     "invalid_quantity_alert": "Quantità non valida.",
     "not_enough_stock_alert": "Scorte insufficienti.",
-    "invalid_new_stock_data_alert": "Dati nuovo tipo di scorta non validi.",
+    "invalid_new_stock_data_alert": "Dati nuovo tipo di scorta non validi. Si prega di compilare tutti i campi inclusa l'unità.",
     "toast_stock_added": {
       "title": "Scorta Aggiunta",
-      "description": "{{quantity}} unità di {{grainType}} aggiunte."
+      "description": "{{quantity}} {{unit}} di {{grainType}} aggiunte."
     },
     "toast_stock_removed": {
       "title": "Scorta Rimossa",
-      "description": "{{quantity}} unità di {{grainType}} rimosse."
+      "description": "{{quantity}} {{unit}} di {{grainType}} rimosse."
     },
     "toast_stock_type_created": {
       "title": "Tipo di Scorta Creato",
       "description": "Il tipo di scorta {{grainType}} è stato creato."
+    },
+     "units": {
+      "kg": "Chilogrammi",
+      "tonnes": "Tonnellate",
+      "lbs": "Libbre",
+      "bushels": "Bushel"
     }
   },
   "fields_page": {

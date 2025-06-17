@@ -34,3 +34,18 @@ export interface FieldDataForAI {
   soilType: string;
   status: string;
 }
+
+export interface StockItem {
+  id: string;
+  grainType: string;
+  quantity: number;
+  unit: string; // Added unit field
+}
+
+export interface Transaction {
+  type: 'add' | 'remove';
+  quantity: number;
+  location: string;
+  date: Date;
+  unit: string;
+}

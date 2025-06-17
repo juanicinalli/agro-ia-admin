@@ -138,13 +138,13 @@
   "stock_page": {
     "title": "Gestión de Inventario",
     "add_new_stock_type_button": "Agregar Nuevo Tipo de Inventario",
-    "current_quantity_description": "Cantidad Actual: {{quantity}} unidades",
+    "current_quantity_description": "Cantidad Actual: {{quantity}} {{unit}}",
     "add_stock_button": "Agregar Inventario",
     "remove_stock_button": "Remover Inventario",
     "add_stock_modal_title": "Agregar Inventario a {{grainType}}",
-    "add_stock_modal_description": "Ingresa los detalles para la adición de inventario.",
+    "add_stock_modal_description": "Ingresa los detalles para la adición de inventario (en {{unit}}).",
     "remove_stock_modal_title": "Remover Inventario de {{grainType}}",
-    "remove_stock_modal_description": "Ingresa los detalles para la remoción de inventario.",
+    "remove_stock_modal_description": "Ingresa los detalles para la remoción de inventario (en {{unit}}).",
     "new_stock_type_modal_title": "Crear Nuevo Tipo de Inventario",
     "new_stock_type_modal_description": "Ingresa los detalles para el nuevo tipo de inventario de granos.",
     "quantity_label": "Cantidad",
@@ -160,21 +160,29 @@
     "grain_type_placeholder": "Ej: Cebada",
     "initial_quantity_label": "Cantidad Inicial",
     "initial_quantity_placeholder": "Ej: 500",
+    "unit_label": "Unidad",
+    "unit_placeholder": "Selecciona unidad",
     "create_stock_type_button": "Crear Tipo de Inventario",
     "invalid_quantity_alert": "Cantidad inválida.",
     "not_enough_stock_alert": "No hay suficiente inventario.",
-    "invalid_new_stock_data_alert": "Datos de nuevo inventario inválidos.",
+    "invalid_new_stock_data_alert": "Datos de nuevo inventario inválidos. Por favor, completa todos los campos incluyendo la unidad.",
     "toast_stock_added": {
       "title": "Inventario Agregado",
-      "description": "{{quantity}} unidades de {{grainType}} agregadas."
+      "description": "{{quantity}} {{unit}} de {{grainType}} agregadas."
     },
     "toast_stock_removed": {
       "title": "Inventario Removido",
-      "description": "{{quantity}} unidades de {{grainType}} removidas."
+      "description": "{{quantity}} {{unit}} de {{grainType}} removidas."
     },
     "toast_stock_type_created": {
       "title": "Tipo de Inventario Creado",
       "description": "Se ha creado el tipo de inventario {{grainType}}."
+    },
+    "units": {
+      "kg": "Kilogramos",
+      "tonnes": "Toneladas",
+      "lbs": "Libras",
+      "bushels": "Bushels"
     }
   },
   "fields_page": {

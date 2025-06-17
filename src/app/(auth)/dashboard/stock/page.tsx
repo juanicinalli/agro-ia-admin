@@ -14,7 +14,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
-import { getLang } from '@/lib/locale-helper'; // Helper for date-fns locale
+import { getLang } from '@/lib/locale-helper';
 import { useToast } from '@/hooks/use-toast';
 import type { StockItem } from '@/lib/types';
 
@@ -44,6 +44,7 @@ export default function StockPage() {
   const [isNewStockModalOpen, setIsNewStockModalOpen] = useState(false);
 
   const [transactionQuantity, setTransactionQuantity] = useState('');
+  const [transactionUnit, setTransactionUnit] = useState(WEIGHT_UNITS[0]); // State for transaction unit
   const [transactionLocation, setTransactionLocation] = useState('');
   const [transactionDate, setTransactionDate] = useState<Date | undefined>(undefined);
   
@@ -52,27 +53,29 @@ export default function StockPage() {
   }, []);
 
 
-  const [newStockData, setNewStockData] = useState<NewStockData>({ grainType: '', initialQuantity: 0, unit: '' });
+  const [newStockData, setNewStockData] = useState<NewStockData>({ grainType: '', initialQuantity: 0, unit: WEIGHT_UNITS[0] });
 
   const handleAddStockClick = (stock: StockItem) => {
     setSelectedStock(stock);
     resetTransactionForm();
+    setTransactionUnit(stock.unit); // Default transaction unit to stock's unit
     setIsAddModalOpen(true);
   };
 
   const handleRemoveStockClick = (stock: StockItem) => {
     setSelectedStock(stock);
     resetTransactionForm();
+    setTransactionUnit(stock.unit); // Default transaction unit to stock's unit
     setIsRemoveModalOpen(true);
   };
 
   const handleAddNewStockClick = () => {
-    setNewStockData({ grainType: '', initialQuantity: 0, unit: WEIGHT_UNITS[0] }); // Default to the first unit
+    setNewStockData({ grainType: '', initialQuantity: 0, unit: WEIGHT_UNITS[0] });
     setIsNewStockModalOpen(true);
   };
 
   const handleAddTransaction = () => {
-    if (!selectedStock || !transactionQuantity || !transactionLocation || !transactionDate) return;
+    if (!selectedStock || !transactionQuantity || !transactionLocation || !transactionDate || !transactionUnit) return;
 
     const quantity = parseInt(transactionQuantity, 10);
     if (isNaN(quantity) || quantity <= 0) {
@@ -84,12 +87,12 @@ export default function StockPage() {
       stock.id === selectedStock.id ? { ...stock, quantity: stock.quantity + quantity } : stock
     ));
     
-    toast({ title: t('stock_page.toast_stock_added.title'), description: t('stock_page.toast_stock_added.description', { quantity, grainType: selectedStock.grainType, unit: selectedStock.unit }) });
+    toast({ title: t('stock_page.toast_stock_added.title'), description: t('stock_page.toast_stock_added.description', { quantity, grainType: selectedStock.grainType, unit: t(`stock_page.units.${transactionUnit.toLowerCase()}`) }) });
     setIsAddModalOpen(false);
   };
 
   const handleRemoveTransaction = () => {
-    if (!selectedStock || !transactionQuantity || !transactionLocation || !transactionDate) return;
+    if (!selectedStock || !transactionQuantity || !transactionLocation || !transactionDate || !transactionUnit) return;
 
     const quantity = parseInt(transactionQuantity, 10);
     if (isNaN(quantity) || quantity <= 0) {
@@ -106,7 +109,7 @@ export default function StockPage() {
       stock.id === selectedStock.id ? { ...stock, quantity: stock.quantity - quantity } : stock
     ));
     
-    toast({ title: t('stock_page.toast_stock_removed.title'), description: t('stock_page.toast_stock_removed.description', { quantity, grainType: selectedStock.grainType, unit: selectedStock.unit }) });
+    toast({ title: t('stock_page.toast_stock_removed.title'), description: t('stock_page.toast_stock_removed.description', { quantity, grainType: selectedStock.grainType, unit: t(`stock_page.units.${transactionUnit.toLowerCase()}`) }) });
     setIsRemoveModalOpen(false);
   };
 
@@ -132,6 +135,7 @@ export default function StockPage() {
     setTransactionQuantity('');
     setTransactionLocation('');
     setTransactionDate(new Date());
+    setTransactionUnit(WEIGHT_UNITS[0]); // Reset transaction unit as well
   };
 
   return (
@@ -172,12 +176,12 @@ export default function StockPage() {
               <Package className="mr-2 h-5 w-5 text-primary" /> {t('stock_page.add_stock_modal_title', { grainType: selectedStock?.grainType })}
             </DialogTitle>
             <DialogDescription>
-               {t('stock_page.add_stock_modal_description', { unit: selectedStock ? t(`stock_page.units.${selectedStock.unit.toLowerCase()}`) : '' })}
+               {t('stock_page.add_stock_modal_description_transaction')}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="add-quantity" className="text-right">
+              <Label htmlFor="add-quantity" className="text-right col-span-1">
                 {t('stock_page.quantity_label')}
               </Label>
               <Input
@@ -185,9 +189,24 @@ export default function StockPage() {
                 type="number"
                 value={transactionQuantity}
                 onChange={(e) => setTransactionQuantity(e.target.value)}
-                className="col-span-3"
+                className="col-span-2"
                 placeholder={t('stock_page.quantity_placeholder_add')}
               />
+              <Select
+                value={transactionUnit}
+                onValueChange={setTransactionUnit}
+              >
+                <SelectTrigger className="col-span-1">
+                  <SelectValue placeholder={t('stock_page.unit_placeholder')} />
+                </SelectTrigger>
+                <SelectContent>
+                  {WEIGHT_UNITS.map((unitValue) => (
+                    <SelectItem key={unitValue} value={unitValue}>
+                      {t(`stock_page.units.${unitValue.toLowerCase()}`)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="add-location" className="text-right">
@@ -246,12 +265,12 @@ export default function StockPage() {
               <Truck className="mr-2 h-5 w-5 text-primary" /> {t('stock_page.remove_stock_modal_title', { grainType: selectedStock?.grainType })}
             </DialogTitle>
             <DialogDescription>
-              {t('stock_page.remove_stock_modal_description', { unit: selectedStock ? t(`stock_page.units.${selectedStock.unit.toLowerCase()}`) : '' })}
+              {t('stock_page.remove_stock_modal_description_transaction')}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="remove-quantity" className="text-right">
+             <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="remove-quantity" className="text-right col-span-1">
                 {t('stock_page.quantity_label')}
               </Label>
               <Input
@@ -259,9 +278,24 @@ export default function StockPage() {
                 type="number"
                 value={transactionQuantity}
                 onChange={(e) => setTransactionQuantity(e.target.value)}
-                className="col-span-3"
+                className="col-span-2"
                 placeholder={t('stock_page.quantity_placeholder_remove')}
               />
+              <Select
+                value={transactionUnit}
+                onValueChange={setTransactionUnit}
+              >
+                <SelectTrigger className="col-span-1">
+                  <SelectValue placeholder={t('stock_page.unit_placeholder')} />
+                </SelectTrigger>
+                <SelectContent>
+                  {WEIGHT_UNITS.map((unitValue) => (
+                    <SelectItem key={unitValue} value={unitValue}>
+                      {t(`stock_page.units.${unitValue.toLowerCase()}`)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="remove-location" className="text-right">
@@ -343,7 +377,7 @@ export default function StockPage() {
               <Input
                 id="new-stock-initial-quantity"
                 type="number"
-                value={newStockData.initialQuantity === 0 ? '' : newStockData.initialQuantity}
+                value={newStockData.initialQuantity === 0 ? '' : String(newStockData.initialQuantity)}
                 onChange={(e) => setNewStockData({ ...newStockData, initialQuantity: parseInt(e.target.value, 10) || 0 })}
                 className="col-span-3"
                 placeholder={t('stock_page.initial_quantity_placeholder')}
@@ -381,3 +415,5 @@ export default function StockPage() {
   );
 }
 
+
+    

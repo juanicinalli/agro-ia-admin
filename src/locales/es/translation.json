@@ -143,8 +143,10 @@
     "remove_stock_button": "Remover Inventario",
     "add_stock_modal_title": "Agregar Inventario a {{grainType}}",
     "add_stock_modal_description": "Ingresa los detalles para la adición de inventario (en {{unit}}).",
+    "add_stock_modal_description_transaction": "Ingresa la cantidad y selecciona su unidad para esta transacción.",
     "remove_stock_modal_title": "Remover Inventario de {{grainType}}",
     "remove_stock_modal_description": "Ingresa los detalles para la remoción de inventario (en {{unit}}).",
+    "remove_stock_modal_description_transaction": "Ingresa la cantidad y selecciona su unidad para esta transacción.",
     "new_stock_type_modal_title": "Crear Nuevo Tipo de Inventario",
     "new_stock_type_modal_description": "Ingresa los detalles para el nuevo tipo de inventario de granos.",
     "quantity_label": "Cantidad",
@@ -197,3 +199,6 @@
     "it": "Italiano"
   }
 }
+
+
+    

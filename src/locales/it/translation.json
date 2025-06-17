@@ -143,8 +143,10 @@
     "remove_stock_button": "Rimuovi Scorta",
     "add_stock_modal_title": "Aggiungi Scorta a {{grainType}}",
     "add_stock_modal_description": "Inserisci i dettagli per l'aggiunta di scorte (in {{unit}}).",
+    "add_stock_modal_description_transaction": "Inserisci la quantità e seleziona la sua unità per questa transazione.",
     "remove_stock_modal_title": "Rimuovi Scorta da {{grainType}}",
     "remove_stock_modal_description": "Inserisci i dettagli per la rimozione di scorte (in {{unit}}).",
+    "remove_stock_modal_description_transaction": "Inserisci la quantità e seleziona la sua unità per questa transazione.",
     "new_stock_type_modal_title": "Crea Nuovo Tipo di Scorta",
     "new_stock_type_modal_description": "Inserisci i dettagli per il nuovo tipo di scorta di grano.",
     "quantity_label": "Quantità",
@@ -197,3 +199,6 @@
     "it": "Italiano"
   }
 }
+
+
+    

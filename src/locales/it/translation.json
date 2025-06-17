@@ -1,51 +1,172 @@
 {
-  "app_name": "AgriCompanion",
-  "fields_title": "Campi",
-  "activities_title": "Attività",
-  "recommendations_title": "Raccomandazioni",
-  "login_title": "Accedi",
-  "login_button": "Accedi",
-  "email_label": "Email",
-  "password_label": "Password",
-  "add_field_button": "Aggiungi Campo",
-  "field_name_label": "Nome Campo",
-  "field_location_label": "Posizione Campo",
-  "field_size_label": "Dimensione Campo",
-  "save_field_button": "Salva Campo",
-  "edit_field_button": "Modifica Campo",
-  "delete_field_button": "Elimina Campo",
-  "add_activity_button": "Aggiungi Attività",
-  "activity_type_label": "Tipo Attività",
-  "activity_date_label": "Data Attività",
-  "activity_notes_label": "Note Attività",
-  "save_activity_button": "Salva Attività",
-  "edit_activity_button": "Modifica Attività",
-  "delete_activity_button": "Elimina Attività",
-  "generate_plan_button": "Genera Piano",
-  "get_recommendations_button": "Ottieni Raccomandazioni",
-  "loading_text": "Caricamento...",
-  "error_text": "Errore:",
-  "no_fields_message": "Nessun campo trovato.",
-  "no_activities_message": "Nessuna attività trovata.",
-  "no_recommendations_message": "Nessuna raccomandazione trovata.",
-  "field_added_success": "Campo aggiunto con successo!",
-  "field_updated_success": "Campo aggiornato con successo!",
-  "field_deleted_success": "Campo eliminato con successo!",
-  "activity_added_success": "Attività aggiunta con successo!",
-  "activity_updated_success": "Attività aggiornata con successo!",
-  "activity_deleted_success": "Attività eliminata con successo!",
-  "plan_generated_success": "Piano generato con successo!",
-  "recommendations_fetched_success": "Raccomandazioni ottenute con successo!",
-  "confirm_delete_title": "Conferma Eliminazione",
-  "confirm_delete_field_message": "Sei sicuro di voler eliminare questo campo?",
-  "confirm_delete_activity_message": "Sei sicuro di voler eliminare questa attività?",
-  "cancel_button": "Annulla",
-  "delete_button": "Elimina",
-  "select_language": "Seleziona Lingua",
-  "spanish": "Spagnolo",
-  "english": "Inglese",
-  "italian": "Italiano",
-  "dashboard": "Dashboard",
-  "calendar": "Calendario",
-  "logout_button": "Esci"
+  "sidebar": {
+    "fields": "Campi",
+    "calendar": "Calendario",
+    "recommendations": "Raccomandazioni",
+    "stock": "Scorte",
+    "logout": "Esci",
+    "select_language": {
+      "title": "Seleziona Lingua",
+      "tooltip": "Cambia Lingua"
+    }
+  },
+  "toast": {
+    "field_added": {
+      "title": "Campo Aggiunto",
+      "description": "{{fieldName}} è stato aggiunto con successo."
+    },
+    "field_updated": {
+      "title": "Campo Aggiornato",
+      "description": "{{fieldName}} è stato aggiornato con successo."
+    },
+    "field_deleted": {
+      "title": "Campo Eliminato",
+      "description": "{{fieldName}} è stato eliminato con successo."
+    },
+    "activity_added": {
+      "title": "Attività Aggiunta",
+      "description": "{{activityTitle}} è stata aggiunta al calendario."
+    },
+    "ai_recommendations_generated": {
+      "title": "Raccomandazioni IA Generate",
+      "description": "Sono disponibili nuove raccomandazioni agronomiche."
+    },
+    "ai_plan_generated": {
+      "title": "Piano Attività IA Generato",
+      "description": "Un nuovo piano per {{fieldName}} è disponibile."
+    },
+    "error": {
+      "title": "Errore",
+      "generating_ai_recommendations": "Impossibile generare le raccomandazioni IA.",
+      "field_not_found": "Campo non trovato.",
+      "generating_ai_plan": "Impossibile generare il piano attività IA."
+    }
+  },
+  "login_page": {
+    "title": "Benvenuto in AgroVision AI",
+    "description": "Accedi per gestire i tuoi campi e ottenere insight IA.",
+    "demo_access": "Usa demo@agrovision.ai / password per l'accesso demo."
+  },
+  "field_form": {
+    "add_title": "Aggiungi Nuovo Campo",
+    "edit_title": "Modifica Campo",
+    "add_description": "Inserisci i dettagli per il tuo nuovo campo.",
+    "edit_description": "Aggiorna i dettagli del tuo campo.",
+    "name_label": "Nome Campo",
+    "name_placeholder": "Es: Paddock Nord",
+    "area_label": "Area (acri)",
+    "area_placeholder": "Es: 120",
+    "crop_type_label": "Tipo di Coltura",
+    "crop_type_placeholder": "Seleziona un tipo di coltura",
+    "soil_type_label": "Tipo di Terreno",
+    "soil_type_placeholder": "Seleziona un tipo di terreno",
+    "status_label": "Stato Campo",
+    "status_placeholder": "Seleziona lo stato del campo",
+    "image_url_label": "URL Immagine (Opzionale)",
+    "image_url_placeholder": "https://placehold.co/600x400.png",
+    "image_url_description": "Inserisci un URL per l'immagine del campo. Usa https://placehold.co per placeholder.",
+    "cancel_button": "Annulla",
+    "add_button": "Aggiungi Campo",
+    "save_button": "Salva Modifiche",
+    "adding_button": "Aggiungendo...",
+    "saving_button": "Salvando..."
+  },
+  "field_card": {
+    "status_prefix": "Stato",
+    "crop_prefix": "Coltura",
+    "area_prefix": "Area",
+    "soil_prefix": "Terreno",
+    "view_button": "Visualizza",
+    "delete_dialog_title": "Sei sicuro?",
+    "delete_dialog_description": "Questa azione non può essere annullata. Eliminerà permanentemente il campo \"{{fieldName}}\" e tutti i dati associati.",
+    "delete_button": "Elimina"
+  },
+  "field_detail": {
+    "back_button": "Torna ai Campi",
+    "edit_button": "Modifica Campo",
+    "scheduled_activities_title": "Attività Programmate",
+    "no_activities_message": "Nessuna attività programmata per questo campo."
+  },
+  "field_activity_plan": {
+    "title": "Piano Attività IA",
+    "description": "Visualizza il piano attività generato dall'IA o aggiungi attività manuali per {{fieldName}}.",
+    "generated_plan_title": "Piano Generato:",
+    "no_plan_message": "Nessun piano IA generato. Clicca sotto per generarne uno.",
+    "generate_button": "Genera Piano IA",
+    "regenerate_button": "Rigenera Piano IA",
+    "generating_button": "Generazione Piano...",
+    "add_manual_activity_button": "Aggiungi Attività Manuale",
+    "add_manual_activity_dialog_title": "Aggiungi Attività Manuale",
+    "add_manual_activity_dialog_description": "Inserisci i dettagli per una nuova attività per {{fieldName}}. Apparirà nel calendario.",
+    "activity_title_label": "Titolo",
+    "activity_title_placeholder": "Es: Test del Suolo",
+    "activity_description_label": "Descrizione",
+    "activity_description_placeholder": "Descrizione dettagliata dell'attività",
+    "activity_date_label": "Data"
+  },
+  "calendar_page": {
+    "title": "Calendario Attività",
+    "description": "Visualizza e gestisci le attività della tua azienda agricola.",
+    "select_day_description": "Seleziona un giorno per visualizzare le attività.",
+    "previous_month": "Mese precedente",
+    "next_month": "Mese successivo",
+    "no_date_selected": "Nessuna Data Selezionata",
+    "activities_scheduled": "{{count}} attività programmata.",
+    "activities_scheduled_plural": "{{count}} attività programmate.",
+    "no_activities_for_day": "Nessuna attività per questo giorno.",
+    "activity_type_ai": "IA",
+    "activity_type_manual": "Manuale",
+    "no_activities_placeholder": "Nessuna attività programmata.",
+    "select_date_placeholder": "Seleziona una data per vedere le attività."
+  },
+  "recommendations_page": {
+    "title": "Raccomandazioni Agronomiche",
+    "description": "Approfondimenti per ottimizzare le tue pratiche agricole.",
+    "get_ai_button": "Ottieni Raccomandazioni IA",
+    "generating_ai_button": "Generazione...",
+    "ai_powered_title": "Approfondimenti IA",
+    "curated_advice_title": "Consigli Selezionati",
+    "no_recommendations_message": "Nessuna raccomandazione disponibile al momento."
+  },
+  "stock_page": {
+    "title": "Gestione Scorte",
+    "add_new_stock_type_button": "Aggiungi Nuovo Tipo di Scorta",
+    "current_quantity_description": "Quantità Attuale: {{quantity}} unità",
+    "add_stock_button": "Aggiungi Scorta",
+    "remove_stock_button": "Rimuovi Scorta",
+    "add_stock_modal_title": "Aggiungi Scorta a {{grainType}}",
+    "add_stock_modal_description": "Inserisci i dettagli per l'aggiunta di scorte.",
+    "remove_stock_modal_title": "Rimuovi Scorta da {{grainType}}",
+    "remove_stock_modal_description": "Inserisci i dettagli per la rimozione di scorte.",
+    "new_stock_type_modal_title": "Crea Nuovo Tipo di Scorta",
+    "new_stock_type_modal_description": "Inserisci i dettagli per il nuovo tipo di scorta di grano.",
+    "quantity_label": "Quantità",
+    "quantity_placeholder_add": "Es: 100",
+    "quantity_placeholder_remove": "Es: 50",
+    "origin_label": "Origine",
+    "origin_placeholder": "Es: Magazzino A",
+    "destination_label": "Destinazione",
+    "destination_placeholder": "Es: Cliente X",
+    "date_label": "Data",
+    "date_placeholder": "Scegli una data",
+    "grain_type_label": "Tipo di Grano",
+    "grain_type_placeholder": "Es: Orzo",
+    "initial_quantity_label": "Quantità Iniziale",
+    "initial_quantity_placeholder": "Es: 500",
+    "create_stock_type_button": "Crea Tipo di Scorta",
+    "invalid_quantity_alert": "Quantità non valida.",
+    "not_enough_stock_alert": "Scorte insufficienti.",
+    "invalid_new_stock_data_alert": "Dati nuovo tipo di scorta non validi."
+  },
+  "fields_page": {
+    "title": "I Miei Campi",
+    "add_new_field_button": "Aggiungi Nuovo Campo",
+    "no_fields_found_title": "Nessun campo trovato.",
+    "no_fields_found_description": "Inizia aggiungendo il tuo primo campo."
+  },
+  "languages": {
+    "en": "Inglese",
+    "es": "Spagnolo",
+    "it": "Italiano"
+  }
 }

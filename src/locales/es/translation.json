@@ -1,37 +1,172 @@
 {
-  "translation": {
-    "title": "Mi Aplicación de Agricultura",
-    "welcome": "Bienvenido a la aplicación agrícola",
+  "sidebar": {
     "fields": "Campos",
-    "activities": "Actividades",
+    "calendar": "Calendario",
     "recommendations": "Recomendaciones",
-    "login": "Iniciar Sesión",
+    "stock": "Inventario",
     "logout": "Cerrar Sesión",
-    "email": "Correo Electrónico",
-    "password": "Contraseña",
-    "submit": "Enviar",
-    "fieldName": "Nombre del Campo",
-    "fieldLocation": "Ubicación del Campo",
-    "fieldArea": "Área del Campo",
-    "addField": "Agregar Campo",
-    "editField": "Editar Campo",
-    "deleteField": "Eliminar Campo",
-    "activityType": "Tipo de Actividad",
-    "activityDate": "Fecha de Actividad",
-    "activityDescription": "Descripción de la Actividad",
-    "addActivity": "Agregar Actividad",
-    "editActivity": "Editar Actividad",
-    "deleteActivity": "Eliminar Actividad",
-    "recommendationType": "Tipo de Recomendación",
-    "recommendationDetails": "Detalles de la Recomendación",
-    "generateRecommendations": "Generar Recomendaciones",
-    "loading": "Cargando...",
-    "error": "Error",
-    "success": "Éxito",
-    "fieldPlaceholder": "Ej: Campo Norte",
-    "locationPlaceholder": "Ej: Lat: 40.7128, Lon: -74.0060",
-    "areaPlaceholder": "Ej: 100 (en hectáreas)",
-    "activityTypePlaceholder": "Ej: Siembra",
-    "activityDescriptionPlaceholder": "Ej: Siembra de maíz"
+    "select_language": {
+      "title": "Seleccionar Idioma",
+      "tooltip": "Cambiar Idioma"
+    }
+  },
+  "toast": {
+    "field_added": {
+      "title": "Campo Agregado",
+      "description": "{{fieldName}} ha sido agregado exitosamente."
+    },
+    "field_updated": {
+      "title": "Campo Actualizado",
+      "description": "{{fieldName}} ha sido actualizado exitosamente."
+    },
+    "field_deleted": {
+      "title": "Campo Eliminado",
+      "description": "{{fieldName}} ha sido eliminado exitosamente."
+    },
+    "activity_added": {
+      "title": "Actividad Agregada",
+      "description": "{{activityTitle}} ha sido agregada al calendario."
+    },
+    "ai_recommendations_generated": {
+      "title": "Recomendaciones IA Generadas",
+      "description": "Nuevas recomendaciones agronómicas están disponibles."
+    },
+    "ai_plan_generated": {
+      "title": "Plan de Actividad IA Generado",
+      "description": "Un nuevo plan para {{fieldName}} está disponible."
+    },
+    "error": {
+      "title": "Error",
+      "generating_ai_recommendations": "No se pudieron generar las recomendaciones IA.",
+      "field_not_found": "Campo no encontrado.",
+      "generating_ai_plan": "No se pudo generar el plan de actividad IA."
+    }
+  },
+  "login_page": {
+    "title": "Bienvenido a AgroVision AI",
+    "description": "Inicia sesión para gestionar tus campos y obtener información IA.",
+    "demo_access": "Usa demo@agrovision.ai / password para acceso de demostración."
+  },
+  "field_form": {
+    "add_title": "Agregar Nuevo Campo",
+    "edit_title": "Editar Campo",
+    "add_description": "Ingresa los detalles para tu nuevo campo.",
+    "edit_description": "Actualiza los detalles de tu campo.",
+    "name_label": "Nombre del Campo",
+    "name_placeholder": "Ej: Parcela Norte",
+    "area_label": "Área (acres)",
+    "area_placeholder": "Ej: 120",
+    "crop_type_label": "Tipo de Cultivo",
+    "crop_type_placeholder": "Selecciona un tipo de cultivo",
+    "soil_type_label": "Tipo de Suelo",
+    "soil_type_placeholder": "Selecciona un tipo de suelo",
+    "status_label": "Estado del Campo",
+    "status_placeholder": "Selecciona el estado del campo",
+    "image_url_label": "URL de Imagen (Opcional)",
+    "image_url_placeholder": "https://placehold.co/600x400.png",
+    "image_url_description": "Ingresa una URL para la imagen del campo. Usa https://placehold.co para marcadores de posición.",
+    "cancel_button": "Cancelar",
+    "add_button": "Agregar Campo",
+    "save_button": "Guardar Cambios",
+    "adding_button": "Agregando...",
+    "saving_button": "Guardando..."
+  },
+  "field_card": {
+    "status_prefix": "Estado",
+    "crop_prefix": "Cultivo",
+    "area_prefix": "Área",
+    "soil_prefix": "Suelo",
+    "view_button": "Ver",
+    "delete_dialog_title": "¿Estás seguro?",
+    "delete_dialog_description": "Esta acción no se puede deshacer. Esto eliminará permanentemente el campo \"{{fieldName}}\" y todos los datos asociados.",
+    "delete_button": "Eliminar"
+  },
+  "field_detail": {
+    "back_button": "Volver a Campos",
+    "edit_button": "Editar Campo",
+    "scheduled_activities_title": "Actividades Programadas",
+    "no_activities_message": "Aún no hay actividades programadas para este campo."
+  },
+  "field_activity_plan": {
+    "title": "Plan de Actividad IA",
+    "description": "Ver plan de actividad generado por IA o agregar actividades manuales para {{fieldName}}.",
+    "generated_plan_title": "Plan Generado:",
+    "no_plan_message": "Aún no se ha generado un plan IA. Haz clic abajo para generar uno.",
+    "generate_button": "Generar Plan IA",
+    "regenerate_button": "Regenerar Plan IA",
+    "generating_button": "Generando Plan...",
+    "add_manual_activity_button": "Agregar Actividad Manual",
+    "add_manual_activity_dialog_title": "Agregar Actividad Manual",
+    "add_manual_activity_dialog_description": "Ingresa los detalles para una nueva actividad para {{fieldName}}. Aparecerá en el calendario.",
+    "activity_title_label": "Título",
+    "activity_title_placeholder": "Ej: Prueba de Suelo",
+    "activity_description_label": "Descripción",
+    "activity_description_placeholder": "Descripción detallada de la actividad",
+    "activity_date_label": "Fecha"
+  },
+  "calendar_page": {
+    "title": "Calendario de Actividades",
+    "description": "Visualiza y gestiona las actividades de tu granja.",
+    "select_day_description": "Selecciona un día para ver las actividades.",
+    "previous_month": "Mes anterior",
+    "next_month": "Mes siguiente",
+    "no_date_selected": "Ninguna Fecha Seleccionada",
+    "activities_scheduled": "{{count}} actividad programada.",
+    "activities_scheduled_plural": "{{count}} actividades programadas.",
+    "no_activities_for_day": "No hay actividades para este día.",
+    "activity_type_ai": "IA",
+    "activity_type_manual": "Manual",
+    "no_activities_placeholder": "No hay actividades programadas.",
+    "select_date_placeholder": "Selecciona una fecha para ver actividades."
+  },
+  "recommendations_page": {
+    "title": "Recomendaciones Agronómicas",
+    "description": "Información para optimizar tus prácticas agrícolas.",
+    "get_ai_button": "Obtener Recomendaciones IA",
+    "generating_ai_button": "Generando...",
+    "ai_powered_title": "Información Impulsada por IA",
+    "curated_advice_title": "Consejos Seleccionados",
+    "no_recommendations_message": "No hay recomendaciones disponibles en este momento."
+  },
+  "stock_page": {
+    "title": "Gestión de Inventario",
+    "add_new_stock_type_button": "Agregar Nuevo Tipo de Inventario",
+    "current_quantity_description": "Cantidad Actual: {{quantity}} unidades",
+    "add_stock_button": "Agregar Inventario",
+    "remove_stock_button": "Remover Inventario",
+    "add_stock_modal_title": "Agregar Inventario a {{grainType}}",
+    "add_stock_modal_description": "Ingresa los detalles para la adición de inventario.",
+    "remove_stock_modal_title": "Remover Inventario de {{grainType}}",
+    "remove_stock_modal_description": "Ingresa los detalles para la remoción de inventario.",
+    "new_stock_type_modal_title": "Crear Nuevo Tipo de Inventario",
+    "new_stock_type_modal_description": "Ingresa los detalles para el nuevo tipo de inventario de granos.",
+    "quantity_label": "Cantidad",
+    "quantity_placeholder_add": "Ej: 100",
+    "quantity_placeholder_remove": "Ej: 50",
+    "origin_label": "Origen",
+    "origin_placeholder": "Ej: Almacén A",
+    "destination_label": "Destino",
+    "destination_placeholder": "Ej: Cliente X",
+    "date_label": "Fecha",
+    "date_placeholder": "Elige una fecha",
+    "grain_type_label": "Tipo de Grano",
+    "grain_type_placeholder": "Ej: Cebada",
+    "initial_quantity_label": "Cantidad Inicial",
+    "initial_quantity_placeholder": "Ej: 500",
+    "create_stock_type_button": "Crear Tipo de Inventario",
+    "invalid_quantity_alert": "Cantidad inválida.",
+    "not_enough_stock_alert": "No hay suficiente inventario.",
+    "invalid_new_stock_data_alert": "Datos de nuevo inventario inválidos."
+  },
+  "fields_page": {
+    "title": "Mis Campos",
+    "add_new_field_button": "Agregar Nuevo Campo",
+    "no_fields_found_title": "No se encontraron campos.",
+    "no_fields_found_description": "Comienza agregando tu primer campo."
+  },
+  "languages": {
+    "en": "Inglés",
+    "es": "Español",
+    "it": "Italiano"
   }
 }

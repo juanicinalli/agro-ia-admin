@@ -1,50 +1,172 @@
 {
-  "translation": {
-    "welcome": "Welcome",
-    "login": "Login",
-    "logout": "Logout",
-    "email": "Email",
-    "password": "Password",
-    "dashboard": "Dashboard",
+  "sidebar": {
     "fields": "Fields",
     "calendar": "Calendar",
     "recommendations": "Recommendations",
-    "settings": "Settings",
-    "save": "Save",
-    "cancel": "Cancel",
-    "edit": "Edit",
-    "delete": "Delete",
-    "add": "Add",
-    "new": "New",
-    "name": "Name",
-    "description": "Description",
-    "date": "Date",
-    "status": "Status",
-    "actions": "Actions",
-    "loading": "Loading...",
-    "error": "Error",
-    "success": "Success",
-    "field": "Field",
-    "activity": "Activity",
-    "agronomic_recommendation": "Agronomic Recommendation",
-    "field_name": "Field Name",
-    "field_location": "Field Location",
-    "field_size": "Field Size",
-    "field_crop_type": "Crop Type",
-    "activity_type": "Activity Type",
-    "activity_date": "Activity Date",
-    "activity_description": "Activity Description",
-    "recommendation_type": "Recommendation Type",
-    "recommendation_details": "Recommendation Details",
-    "recommendation_date": "Recommendation Date",
-    "placeholder_email": "Enter your email",
-    "placeholder_password": "Enter your password",
-    "placeholder_field_name": "Enter field name",
-    "placeholder_field_location": "Enter field location",
-    "placeholder_field_size": "Enter field size (e.g., acres, hectares)",
-    "placeholder_field_crop_type": "Enter crop type (e.g., Wheat, Corn)",
-    "placeholder_activity_type": "Enter activity type (e.g., Planting, Harvesting)",
-    "placeholder_activity_description": "Enter activity description",
-    "placeholder_recommendation_details": "Enter recommendation details"
+    "stock": "Stock",
+    "logout": "Logout",
+    "select_language": {
+      "title": "Select Language",
+      "tooltip": "Change Language"
+    }
+  },
+  "toast": {
+    "field_added": {
+      "title": "Field Added",
+      "description": "{{fieldName}} has been successfully added."
+    },
+    "field_updated": {
+      "title": "Field Updated",
+      "description": "{{fieldName}} has been successfully updated."
+    },
+    "field_deleted": {
+      "title": "Field Deleted",
+      "description": "{{fieldName}} has been successfully deleted."
+    },
+    "activity_added": {
+      "title": "Activity Added",
+      "description": "{{activityTitle}} has been added to the calendar."
+    },
+    "ai_recommendations_generated": {
+      "title": "AI Recommendations Generated",
+      "description": "New agronomic recommendations are available."
+    },
+    "ai_plan_generated": {
+      "title": "AI Activity Plan Generated",
+      "description": "A new plan for {{fieldName}} is available."
+    },
+    "error": {
+      "title": "Error",
+      "generating_ai_recommendations": "Could not generate AI recommendations.",
+      "field_not_found": "Field not found.",
+      "generating_ai_plan": "Could not generate AI activity plan."
+    }
+  },
+  "login_page": {
+    "title": "Welcome to AgroVision AI",
+    "description": "Sign in to manage your fields and get AI insights.",
+    "demo_access": "Use demo@agrovision.ai / password for demo access."
+  },
+  "field_form": {
+    "add_title": "Add New Field",
+    "edit_title": "Edit Field",
+    "add_description": "Enter the details for your new field.",
+    "edit_description": "Update the details of your field.",
+    "name_label": "Field Name",
+    "name_placeholder": "e.g., North Paddock",
+    "area_label": "Area (acres)",
+    "area_placeholder": "e.g., 120",
+    "crop_type_label": "Crop Type",
+    "crop_type_placeholder": "Select a crop type",
+    "soil_type_label": "Soil Type",
+    "soil_type_placeholder": "Select a soil type",
+    "status_label": "Field Status",
+    "status_placeholder": "Select field status",
+    "image_url_label": "Image URL (Optional)",
+    "image_url_placeholder": "https://placehold.co/600x400.png",
+    "image_url_description": "Enter a URL for the field image. Use https://placehold.co for placeholders.",
+    "cancel_button": "Cancel",
+    "add_button": "Add Field",
+    "save_button": "Save Changes",
+    "adding_button": "Adding...",
+    "saving_button": "Saving..."
+  },
+  "field_card": {
+    "status_prefix": "Status",
+    "crop_prefix": "Crop",
+    "area_prefix": "Area",
+    "soil_prefix": "Soil",
+    "view_button": "View",
+    "delete_dialog_title": "Are you sure?",
+    "delete_dialog_description": "This action cannot be undone. This will permanently delete the field \"{{fieldName}}\" and all associated data.",
+    "delete_button": "Delete"
+  },
+  "field_detail": {
+    "back_button": "Back to Fields",
+    "edit_button": "Edit Field",
+    "scheduled_activities_title": "Scheduled Activities",
+    "no_activities_message": "No activities scheduled for this field yet."
+  },
+  "field_activity_plan": {
+    "title": "AI Activity Plan",
+    "description": "View AI-generated activity plan or add manual activities for {{fieldName}}.",
+    "generated_plan_title": "Generated Plan:",
+    "no_plan_message": "No AI plan generated yet. Click below to generate one.",
+    "generate_button": "Generate AI Plan",
+    "regenerate_button": "Regenerate AI Plan",
+    "generating_button": "Generating Plan...",
+    "add_manual_activity_button": "Add Manual Activity",
+    "add_manual_activity_dialog_title": "Add Manual Activity",
+    "add_manual_activity_dialog_description": "Enter details for a new activity for {{fieldName}}. This will appear on the calendar.",
+    "activity_title_label": "Title",
+    "activity_title_placeholder": "e.g., Soil Testing",
+    "activity_description_label": "Description",
+    "activity_description_placeholder": "Detailed description of the activity",
+    "activity_date_label": "Date"
+  },
+  "calendar_page": {
+    "title": "Activity Calendar",
+    "description": "View and manage your farm activities.",
+    "select_day_description": "Select a day to view activities.",
+    "previous_month": "Previous month",
+    "next_month": "Next month",
+    "no_date_selected": "No Date Selected",
+    "activities_scheduled": "{{count}} activity scheduled.",
+    "activities_scheduled_plural": "{{count}} activities scheduled.",
+    "no_activities_for_day": "No activities for this day.",
+    "activity_type_ai": "AI",
+    "activity_type_manual": "Manual",
+    "no_activities_placeholder": "No activities scheduled.",
+    "select_date_placeholder": "Select a date to see activities."
+  },
+  "recommendations_page": {
+    "title": "Agronomic Recommendations",
+    "description": "Insights to optimize your farming practices.",
+    "get_ai_button": "Get AI Recommendations",
+    "generating_ai_button": "Generating...",
+    "ai_powered_title": "AI-Powered Insights",
+    "curated_advice_title": "Curated Advice",
+    "no_recommendations_message": "No recommendations available at this time."
+  },
+  "stock_page": {
+    "title": "Stock Management",
+    "add_new_stock_type_button": "Add New Stock Type",
+    "current_quantity_description": "Current Quantity: {{quantity}} units",
+    "add_stock_button": "Add Stock",
+    "remove_stock_button": "Remove Stock",
+    "add_stock_modal_title": "Add Stock to {{grainType}}",
+    "add_stock_modal_description": "Enter the details for the stock addition.",
+    "remove_stock_modal_title": "Remove Stock from {{grainType}}",
+    "remove_stock_modal_description": "Enter the details for the stock removal.",
+    "new_stock_type_modal_title": "Create New Stock Type",
+    "new_stock_type_modal_description": "Enter the details for the new grain stock type.",
+    "quantity_label": "Quantity",
+    "quantity_placeholder_add": "e.g., 100",
+    "quantity_placeholder_remove": "e.g., 50",
+    "origin_label": "Origin",
+    "origin_placeholder": "e.g., Warehouse A",
+    "destination_label": "Destination",
+    "destination_placeholder": "e.g., Client X",
+    "date_label": "Date",
+    "date_placeholder": "Pick a date",
+    "grain_type_label": "Grain Type",
+    "grain_type_placeholder": "e.g., Barley",
+    "initial_quantity_label": "Initial Quantity",
+    "initial_quantity_placeholder": "e.g., 500",
+    "create_stock_type_button": "Create Stock Type",
+    "invalid_quantity_alert": "Invalid quantity.",
+    "not_enough_stock_alert": "Not enough stock.",
+    "invalid_new_stock_data_alert": "Invalid new stock data."
+  },
+  "fields_page": {
+    "title": "My Fields",
+    "add_new_field_button": "Add New Field",
+    "no_fields_found_title": "No fields found.",
+    "no_fields_found_description": "Get started by adding your first field."
+  },
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "it": "Italiano"
   }
 }

@@ -30,16 +30,16 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/button';
 
 const navItems = [
-  { href: '/dashboard/fields', label: 'Fields', icon: Tractor },
-  { href: '/dashboard/calendar', label: 'Calendar', icon: CalendarDays },
-  { href: '/dashboard/recommendations', label: 'Recommendations', icon: Lightbulb },
-  { href: '/dashboard/stock', label: 'Stock', icon: Warehouse },
+  { href: '/dashboard/fields', labelKey: 'sidebar.fields', icon: Tractor },
+  { href: '/dashboard/calendar', labelKey: 'sidebar.calendar', icon: CalendarDays },
+  { href: '/dashboard/recommendations', labelKey: 'sidebar.recommendations', icon: Lightbulb },
+  { href: '/dashboard/stock', labelKey: 'sidebar.stock', icon: Warehouse },
 ];
 
 const languageOptions = [
-  { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'es', name: 'Español', flag: '🇪🇸' },
-  { code: 'it', name: 'Italiano', flag: '🇮🇹' },
+  { code: 'en', nameKey: 'languages.en', name: 'English', flag: '🇺🇸' },
+  { code: 'es', nameKey: 'languages.es', name: 'Español', flag: '🇪🇸' },
+  { code: 'it', nameKey: 'languages.it', name: 'Italiano', flag: '🇮🇹' },
 ];
 
 export function SidebarNav() {
@@ -48,7 +48,10 @@ export function SidebarNav() {
   const { state: sidebarState, isMobile } = useSidebar();
   const { t, i18n } = useTranslation();
 
-  const currentLanguage = languageOptions.find(lang => lang.code === i18n.language) || languageOptions[1];
+  const currentLanguage = 
+    languageOptions.find(opt => i18n.language && i18n.language.startsWith(opt.code)) || 
+    languageOptions.find(opt => opt.code === i18n.options.fallbackLng) || 
+    languageOptions[0];
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -81,7 +84,7 @@ export function SidebarNav() {
                       >
                         <a>
                           <item.icon className="h-5 w-5" />
-                          <span className="group-data-[collapsible=icon]:hidden">{t(item.label.toLowerCase())}</span>
+                          <span className="group-data-[collapsible=icon]:hidden">{t(item.labelKey)}</span>
                         </a>
                       </SidebarMenuButton>
                     </Link>
@@ -91,7 +94,7 @@ export function SidebarNav() {
                     align="center" 
                     hidden={sidebarState !== "collapsed" || isMobile}
                   >
-                    {t(item.label.toLowerCase())}
+                    {t(item.labelKey)}
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -113,7 +116,7 @@ export function SidebarNav() {
                       >
                         <Languages className="h-5 w-5" />
                         <span className="group-data-[collapsible=icon]:hidden">
-                          {currentLanguage.flag} {currentLanguage.name}
+                          {currentLanguage.flag} {t(currentLanguage.nameKey, currentLanguage.name)}
                         </span>
                       </SidebarMenuButton>
                     </DropdownMenuTrigger>
@@ -123,18 +126,18 @@ export function SidebarNav() {
                     align="center" 
                     hidden={sidebarState !== "collapsed" || isMobile}
                   >
-                    {t('select_language', 'Change Language')}
+                    {t('sidebar.select_language.tooltip')}
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
               <DropdownMenuContent side="top" align="start" className="w-56">
-                <DropdownMenuLabel>{t('select_language', 'Select Language')}</DropdownMenuLabel>
+                <DropdownMenuLabel>{t('sidebar.select_language.title')}</DropdownMenuLabel>
                 <DMDMenuSeparator />
                 {languageOptions.map((lang) => (
                   <DropdownMenuItem key={lang.code} onSelect={() => changeLanguage(lang.code)}>
                     <span className="mr-2">{lang.flag}</span>
-                    <span>{lang.name}</span>
-                    {i18n.language === lang.code && <Check className="ml-auto h-4 w-4" />}
+                    <span>{t(lang.nameKey, lang.name)}</span>
+                    {i18n.language && i18n.language.startsWith(lang.code) && <Check className="ml-auto h-4 w-4" />}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -151,7 +154,7 @@ export function SidebarNav() {
                       className="w-full justify-start group-data-[collapsible=icon]:justify-center"
                   >
                       <LogOut className="h-5 w-5" />
-                      <span className="group-data-[collapsible=icon]:hidden">{t('logout')}</span>
+                      <span className="group-data-[collapsible=icon]:hidden">{t('sidebar.logout')}</span>
                   </SidebarMenuButton>
                 </TooltipTrigger>
                 <TooltipContent 
@@ -159,7 +162,7 @@ export function SidebarNav() {
                   align="center" 
                   hidden={sidebarState !== "collapsed" || isMobile}
                 >
-                  {t('logout')}
+                  {t('sidebar.logout')}
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

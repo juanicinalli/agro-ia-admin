@@ -58,6 +58,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(() => {
     localStorage.removeItem(AUTH_STORAGE_KEY);
     setIsAuthenticated(false);
+    // Optionally, redirect to login page or refresh to apply language changes if any were pending
+    window.location.href = '/login'; 
   }, []);
 
   const getFieldById = useCallback((id: string) => fields.find(f => f.id === id), [fields]);
@@ -65,31 +67,46 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const addField = useCallback((fieldData: Omit<Field, 'id' | 'activities' | 'imageUrl' | 'aiActivityPlan'>) => {
     const newField: Field = {
       ...fieldData,
-      id: String(Date.now()), // Simple ID generation
+      id: String(Date.now()), 
       imageUrl: 'https://placehold.co/600x400.png',
       activities: [],
     };
     setFields(prev => [...prev, newField]);
-    toast({ title: t("Field Added"), description: t("{{fieldName}} has been successfully added.", { fieldName: newField.name }) });
-  }, [toast]);
+    toast({ 
+      title: t("toast.field_added.title"), 
+      description: t("toast.field_added.description", { fieldName: newField.name }) 
+    });
+  }, [toast, t]);
 
   const updateField = useCallback((id: string, fieldUpdate: Partial<Field>) => {
-    setFields(prev => prev.map(f => f.id === id ? { ...f, ...fieldUpdate } : f));
-    const updatedField = fields.find(f => f.id === id);
-    if (updatedField) {
-       toast({ title: "Field Updated", description: `${updatedField.name} has been successfully updated.` });
-    } // Consider translating this toast as well
-  }, [fields, toast]);
+    let updatedFieldName = '';
+    setFields(prev => prev.map(f => {
+      if (f.id === id) {
+        updatedFieldName = fieldUpdate.name || f.name;
+        return { ...f, ...fieldUpdate };
+      }
+      return f;
+    }));
+    if (updatedFieldName) {
+       toast({ 
+         title: t("toast.field_updated.title"), 
+         description: t("toast.field_updated.description", { fieldName: updatedFieldName }) 
+       });
+    }
+  }, [toast, t]);
 
   const deleteField = useCallback((id: string) => {
     const fieldToDelete = fields.find(f => f.id === id);
     setFields(prev => prev.filter(f => f.id !== id));
-    // Also remove activities associated with this field
     setActivities(prev => prev.filter(act => act.fieldId !== id));
     if (fieldToDelete) {
-      toast({ title: "Field Deleted", description: `${fieldToDelete.name} has been successfully deleted.`, variant: "destructive" });
-    } // Consider translating this toast as well
-  }, [fields, toast]);
+      toast({ 
+        title: t("toast.field_deleted.title"), 
+        description: t("toast.field_deleted.description", { fieldName: fieldToDelete.name }), 
+        variant: "destructive" 
+      });
+    }
+  }, [fields, toast, t]);
 
   const addActivity = useCallback((activityData: Omit<Activity, 'id'>) => {
     const newActivity: Activity = {
@@ -104,8 +121,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
         : f
       ));
     }
-    toast({ title: t("Activity Added"), description: t("{{activityTitle}} has been added to the calendar.", { activityTitle: newActivity.title }) });
-  }, [toast]);
+    toast({ 
+      title: t("toast.activity_added.title"), 
+      description: t("toast.activity_added.description", { activityTitle: newActivity.title }) 
+    });
+  }, [toast, t]);
 
   const generateAIRecommendations = useCallback(async () => {
     setLoadingAIRecommendations(true);
@@ -127,19 +147,30 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }));
       
       setRecommendations(prev => [...MOCK_MANUAL_RECOMMENDATIONS, ...newAIRecommendations]);
-      toast({ title: t("AI Recommendations Generated"), description: t("New agronomic recommendations are available.") });
+      toast({ 
+        title: t("toast.ai_recommendations_generated.title"), 
+        description: t("toast.ai_recommendations_generated.description") 
+      });
     } catch (error) {
       console.error("Error generating AI recommendations:", error);
-      toast({ title: t("Error"), description: t("Could not generate AI recommendations."), variant: "destructive" });
+      toast({ 
+        title: t("toast.error.title"), 
+        description: t("toast.error.generating_ai_recommendations"), 
+        variant: "destructive" 
+      });
     } finally {
       setLoadingAIRecommendations(false);
     }
-  }, [fields, toast]);
+  }, [fields, toast, t]);
 
   const generateAIFieldPlan = useCallback(async (fieldId: string) => {
     const field = getFieldById(fieldId);
     if (!field) {
-      toast({ title: t("Error"), description: t("Field not found."), variant: "destructive" });
+      toast({ 
+        title: t("toast.error.title"), 
+        description: t("toast.error.field_not_found"), 
+        variant: "destructive" 
+      });
       return;
     }
     setLoadingAIPlan(true);
@@ -154,15 +185,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
         currentDate: currentDate,
       };
       const result = await fetchAIPlan(input);
-      updateField(fieldId, { aiActivityPlan: result.plan }); // Assuming result.plan is stringable or can be handled
-      toast({ title: t("AI Activity Plan Generated"), description: t("A new plan for {{fieldName}} is available.", { fieldName: field.name }) });
+      updateField(fieldId, { aiActivityPlan: result.plan });
+      toast({ 
+        title: t("toast.ai_plan_generated.title"), 
+        description: t("toast.ai_plan_generated.description", { fieldName: field.name }) 
+      });
     } catch (error) {
       console.error("Error generating AI field plan:", error);
-      toast({ title: t("Error"), description: t("Could not generate AI activity plan."), variant: "destructive" });
+      toast({ 
+        title: t("toast.error.title"), 
+        description: t("toast.error.generating_ai_plan"), 
+        variant: "destructive" 
+      });
     } finally {
       setLoadingAIPlan(false);
     }
-  }, [getFieldById, updateField, toast]);
+  }, [getFieldById, updateField, toast, t]);
 
 
   return (

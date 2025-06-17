@@ -1,6 +1,7 @@
 
 "use client";
 
+import '../i18n'; // Import i18n configuration
 import type { ReactNode } from 'react';
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { Field, Activity, AgronomicRecommendationItem, FieldDataForAI } from '@/lib/types';
@@ -8,6 +9,7 @@ import { MOCK_FIELDS, MOCK_ACTIVITIES, MOCK_MANUAL_RECOMMENDATIONS } from '@/lib
 import { getAgronomicRecommendations as fetchAIRecommendations } from '@/ai/flows/get-agronomic-recommendations';
 import { generateFieldActivityPlan as fetchAIPlan } from '@/ai/flows/generate-field-activity-plan';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from 'react-i18next';
 
 interface AppContextType {
   isAuthenticated: boolean;
@@ -38,6 +40,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [recommendations, setRecommendations] = useState<AgronomicRecommendationItem[]>(MOCK_MANUAL_RECOMMENDATIONS);
   const [loadingAIRecommendations, setLoadingAIRecommendations] = useState(false);
   const [loadingAIPlan, setLoadingAIPlan] = useState(false);
+  const { t } = useTranslation();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -67,7 +70,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       activities: [],
     };
     setFields(prev => [...prev, newField]);
-    toast({ title: "Field Added", description: `${newField.name} has been successfully added.` });
+    toast({ title: t("Field Added"), description: t("{{fieldName}} has been successfully added.", { fieldName: newField.name }) });
   }, [toast]);
 
   const updateField = useCallback((id: string, fieldUpdate: Partial<Field>) => {
@@ -75,7 +78,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const updatedField = fields.find(f => f.id === id);
     if (updatedField) {
        toast({ title: "Field Updated", description: `${updatedField.name} has been successfully updated.` });
-    }
+    } // Consider translating this toast as well
   }, [fields, toast]);
 
   const deleteField = useCallback((id: string) => {
@@ -85,7 +88,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setActivities(prev => prev.filter(act => act.fieldId !== id));
     if (fieldToDelete) {
       toast({ title: "Field Deleted", description: `${fieldToDelete.name} has been successfully deleted.`, variant: "destructive" });
-    }
+    } // Consider translating this toast as well
   }, [fields, toast]);
 
   const addActivity = useCallback((activityData: Omit<Activity, 'id'>) => {
@@ -101,7 +104,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         : f
       ));
     }
-    toast({ title: "Activity Added", description: `${newActivity.title} has been added to the calendar.` });
+    toast({ title: t("Activity Added"), description: t("{{activityTitle}} has been added to the calendar.", { activityTitle: newActivity.title }) });
   }, [toast]);
 
   const generateAIRecommendations = useCallback(async () => {
@@ -124,10 +127,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }));
       
       setRecommendations(prev => [...MOCK_MANUAL_RECOMMENDATIONS, ...newAIRecommendations]);
-      toast({ title: "AI Recommendations Generated", description: "New agronomic recommendations are available." });
+      toast({ title: t("AI Recommendations Generated"), description: t("New agronomic recommendations are available.") });
     } catch (error) {
       console.error("Error generating AI recommendations:", error);
-      toast({ title: "Error", description: "Could not generate AI recommendations.", variant: "destructive" });
+      toast({ title: t("Error"), description: t("Could not generate AI recommendations."), variant: "destructive" });
     } finally {
       setLoadingAIRecommendations(false);
     }
@@ -136,7 +139,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const generateAIFieldPlan = useCallback(async (fieldId: string) => {
     const field = getFieldById(fieldId);
     if (!field) {
-      toast({ title: "Error", description: "Field not found.", variant: "destructive" });
+      toast({ title: t("Error"), description: t("Field not found."), variant: "destructive" });
       return;
     }
     setLoadingAIPlan(true);
@@ -151,11 +154,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
         currentDate: currentDate,
       };
       const result = await fetchAIPlan(input);
-      updateField(fieldId, { aiActivityPlan: result.plan });
-      toast({ title: "AI Activity Plan Generated", description: `A new plan for ${field.name} is available.` });
+      updateField(fieldId, { aiActivityPlan: result.plan }); // Assuming result.plan is stringable or can be handled
+      toast({ title: t("AI Activity Plan Generated"), description: t("A new plan for {{fieldName}} is available.", { fieldName: field.name }) });
     } catch (error) {
       console.error("Error generating AI field plan:", error);
-      toast({ title: "Error", description: "Could not generate AI activity plan.", variant: "destructive" });
+      toast({ title: t("Error"), description: t("Could not generate AI activity plan."), variant: "destructive" });
     } finally {
       setLoadingAIPlan(false);
     }

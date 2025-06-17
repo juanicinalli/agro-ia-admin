@@ -29,11 +29,11 @@ export function SidebarNav() {
       </div>
       <nav className="flex-grow p-2">
         <SidebarMenu>
-          {navItems.map((item) => (
+ {navItems.map((item) => (
             <SidebarMenuItem key={item.href}>
-              <Link href={item.href} asChild>
-                <SidebarMenuButton
-                  isActive={pathname.startsWith(item.href)}
+ <Link href={item.href} legacyBehavior passHref>
+ <SidebarMenuButton
+ isActive={pathname.startsWith(item.href)}
                   tooltip={item.label}
                   className="justify-start"
                 >

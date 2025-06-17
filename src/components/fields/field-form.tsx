@@ -13,7 +13,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useRouter } from 'next/navigation';
 
-const SOIL_TYPES = ["Loamy Sand", "Clay Loam", "Silty Clay", "Sandy", "Peaty", "Chalky", "Silt"];
 const CROP_TYPES = ["Corn", "Soybeans", "Wheat", "Barley", "Canola", "Potatoes", "Sugar Beets", "Cotton"];
 const FIELD_STATUSES = ["Planted", "Growing", "Harvesting", "Fallow", "Preparing"];
 
@@ -120,7 +119,7 @@ export function FieldForm({ initialData, onSubmit, isEditing = false }: FieldFor
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Soil Type</FormLabel>
-                   <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a soil type" />
@@ -128,7 +127,7 @@ export function FieldForm({ initialData, onSubmit, isEditing = false }: FieldFor
                     </FormControl>
                     <SelectContent>
                       {SOIL_TYPES.map(soil => (
-                        <SelectItem key={soil} value={soil}>{soil}</SelectItem>
+ <SelectItem key={soil} value={soil}>{soil}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>

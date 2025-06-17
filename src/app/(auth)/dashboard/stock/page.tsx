@@ -1,13 +1,14 @@
+
 'use client';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { Calendar as CalendarIcon, PackagePlus, ArrowUpCircle, ArrowDownCircle, Package, ShoppingBag, Truck } from 'lucide-react';
 
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -45,21 +46,26 @@ export default function StockPage() {
 
   const [transactionQuantity, setTransactionQuantity] = useState('');
   const [transactionLocation, setTransactionLocation] = useState('');
-  const [transactionDate, setTransactionDate] = useState<Date | undefined>(undefined);
+  const [transactionDate, setTransactionDate] = useState<Date | undefined>(new Date());
 
   const [newStockData, setNewStockData] = useState<NewStockData>({ grainType: '', initialQuantity: 0 });
 
   const handleAddStockClick = (stock: StockItem) => {
     setSelectedStock(stock);
+    resetTransactionForm();
+    setTransactionDate(new Date());
     setIsAddModalOpen(true);
   };
 
   const handleRemoveStockClick = (stock: StockItem) => {
     setSelectedStock(stock);
+    resetTransactionForm();
+    setTransactionDate(new Date());
     setIsRemoveModalOpen(true);
   };
 
   const handleAddNewStockClick = () => {
+    setNewStockData({ grainType: '', initialQuantity: 0 });
     setIsNewStockModalOpen(true);
   };
 
@@ -69,6 +75,7 @@ export default function StockPage() {
     const quantity = parseInt(transactionQuantity, 10);
     if (isNaN(quantity) || quantity <= 0) {
       // Handle error: invalid quantity
+      alert("Invalid quantity.");
       return;
     }
 
@@ -76,7 +83,6 @@ export default function StockPage() {
       stock.id === selectedStock.id ? { ...stock, quantity: stock.quantity + quantity } : stock
     ));
 
-    // Here you would typically save the transaction to a backend
     const newTransaction: Transaction = {
       type: 'add',
       quantity: quantity,
@@ -86,7 +92,6 @@ export default function StockPage() {
     console.log('New Add Transaction:', newTransaction);
 
     setIsAddModalOpen(false);
-    resetTransactionForm();
   };
 
   const handleRemoveTransaction = () => {
@@ -94,12 +99,12 @@ export default function StockPage() {
 
     const quantity = parseInt(transactionQuantity, 10);
     if (isNaN(quantity) || quantity <= 0) {
-      // Handle error: invalid quantity
+      alert("Invalid quantity.");
       return;
     }
 
     if (selectedStock.quantity < quantity) {
-      // Handle error: not enough stock
+      alert("Not enough stock.");
       return;
     }
 
@@ -107,7 +112,6 @@ export default function StockPage() {
       stock.id === selectedStock.id ? { ...stock, quantity: stock.quantity - quantity } : stock
     ));
 
-    // Here you would typically save the transaction to a backend
     const newTransaction: Transaction = {
       type: 'remove',
       quantity: quantity,
@@ -116,50 +120,57 @@ export default function StockPage() {
     };
     console.log('New Remove Transaction:', newTransaction);
 
-
     setIsRemoveModalOpen(false);
-    resetTransactionForm();
   };
 
   const handleCreateNewStock = () => {
-    if (!newStockData.grainType || newStockData.initialQuantity < 0) return;
+    if (!newStockData.grainType || newStockData.initialQuantity < 0) {
+      alert("Invalid new stock data.");
+      return;
+    }
 
     const newStockItem: StockItem = {
-      id: Date.now().toString(), // Simple unique ID for demo
+      id: Date.now().toString(), 
       grainType: newStockData.grainType,
       quantity: newStockData.initialQuantity,
     };
 
     setGrainStock([...grainStock, newStockItem]);
-
     setIsNewStockModalOpen(false);
-    setNewStockData({ grainType: '', initialQuantity: 0 });
   };
 
   const resetTransactionForm = () => {
     setTransactionQuantity('');
     setTransactionLocation('');
-    setTransactionDate(undefined);
+    setTransactionDate(new Date());
   };
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">Stock Management</h1>
-
-      <div className="mb-6">
-        <Button onClick={handleAddNewStockClick}>Add New Stock Type</Button>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Stock Management</h1>
+        <Button onClick={handleAddNewStockClick}>
+          <PackagePlus className="mr-2 h-5 w-5" /> Add New Stock Type
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {grainStock.map((stock) => (
-          <Card key={stock.id}>
+          <Card key={stock.id} className="shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader>
-              <CardTitle>{stock.grainType}</CardTitle>
-              <CardDescription>Current Quantity: {stock.quantity}</CardDescription>
+              <CardTitle className="flex items-center">
+                <ShoppingBag className="mr-2 h-5 w-5 text-primary" />
+                {stock.grainType}
+              </CardTitle>
+              <CardDescription>Current Quantity: {stock.quantity} units</CardDescription>
             </CardHeader>
             <CardFooter className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => handleAddStockClick(stock)}>Agregar Stock</Button>
-              <Button variant="outline" onClick={() => handleRemoveStockClick(stock)}>Remove Stock</Button>
+              <Button variant="outline" onClick={() => handleAddStockClick(stock)}>
+                <ArrowUpCircle className="mr-2 h-5 w-5" /> Add Stock
+              </Button>
+              <Button variant="outline" onClick={() => handleRemoveStockClick(stock)}>
+                <ArrowDownCircle className="mr-2 h-5 w-5" /> Remove Stock
+              </Button>
             </CardFooter>
           </Card>
         ))}
@@ -168,9 +179,10 @@ export default function StockPage() {
       {/* Add Stock Modal */}
       <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
         <DialogContent>
- <DialogTitle className="sr-only">Add Stock Modal</DialogTitle>
           <DialogHeader>
-            <DialogTitle>Add Stock to {selectedStock?.grainType}</DialogTitle>
+            <DialogTitle className="flex items-center">
+              <Package className="mr-2 h-5 w-5 text-primary" /> Add Stock to {selectedStock?.grainType}
+            </DialogTitle>
             <DialogDescription>
               Enter the details for the stock addition.
             </DialogDescription>
@@ -186,6 +198,7 @@ export default function StockPage() {
                 value={transactionQuantity}
                 onChange={(e) => setTransactionQuantity(e.target.value)}
                 className="col-span-3"
+                placeholder="e.g., 100"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -197,6 +210,7 @@ export default function StockPage() {
                 value={transactionLocation}
                 onChange={(e) => setTransactionLocation(e.target.value)}
                 className="col-span-3"
+                placeholder="e.g., Warehouse A"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -231,7 +245,7 @@ export default function StockPage() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsAddModalOpen(false)}>Cancel</Button>
-            <Button onClick={handleAddTransaction}>Add Stock</Button>
+            <Button onClick={handleAddTransaction}><ArrowUpCircle className="mr-2 h-5 w-5" />Add Stock</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -239,9 +253,10 @@ export default function StockPage() {
       {/* Remove Stock Modal */}
       <Dialog open={isRemoveModalOpen} onOpenChange={setIsRemoveModalOpen}>
         <DialogContent>
- <DialogTitle className="sr-only">Remove Stock Modal</DialogTitle>
           <DialogHeader>
-            <DialogTitle>Remove Stock from {selectedStock?.grainType}</DialogTitle>
+            <DialogTitle className="flex items-center">
+              <Truck className="mr-2 h-5 w-5 text-primary" /> Remove Stock from {selectedStock?.grainType}
+            </DialogTitle>
             <DialogDescription>
               Enter the details for the stock removal.
             </DialogDescription>
@@ -257,6 +272,7 @@ export default function StockPage() {
                 value={transactionQuantity}
                 onChange={(e) => setTransactionQuantity(e.target.value)}
                 className="col-span-3"
+                placeholder="e.g., 50"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -268,6 +284,7 @@ export default function StockPage() {
                 value={transactionLocation}
                 onChange={(e) => setTransactionLocation(e.target.value)}
                 className="col-span-3"
+                placeholder="e.g., Client X"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -302,7 +319,7 @@ export default function StockPage() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsRemoveModalOpen(false)}>Cancel</Button>
-            <Button onClick={handleRemoveTransaction}>Remove Stock</Button>
+            <Button onClick={handleRemoveTransaction}><ArrowDownCircle className="mr-2 h-5 w-5" />Remove Stock</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -310,9 +327,10 @@ export default function StockPage() {
       {/* New Stock Type Modal */}
       <Dialog open={isNewStockModalOpen} onOpenChange={setIsNewStockModalOpen}>
         <DialogContent>
- <DialogTitle className="sr-only">New Stock Type Modal</DialogTitle>
           <DialogHeader>
-            <DialogTitle>Create New Stock Type</DialogTitle>
+            <DialogTitle className="flex items-center">
+               <PackagePlus className="mr-2 h-5 w-5 text-primary" /> Create New Stock Type
+            </DialogTitle>
             <DialogDescription>
               Enter the details for the new grain stock type.
             </DialogDescription>
@@ -327,6 +345,7 @@ export default function StockPage() {
                 value={newStockData.grainType}
                 onChange={(e) => setNewStockData({ ...newStockData, grainType: e.target.value })}
                 className="col-span-3"
+                placeholder="e.g., Barley"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -336,15 +355,16 @@ export default function StockPage() {
               <Input
                 id="new-stock-initial-quantity"
                 type="number"
-                value={newStockData.initialQuantity}
+                value={newStockData.initialQuantity === 0 ? '' : newStockData.initialQuantity}
                 onChange={(e) => setNewStockData({ ...newStockData, initialQuantity: parseInt(e.target.value, 10) || 0 })}
                 className="col-span-3"
+                placeholder="e.g., 500"
               />
             </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsNewStockModalOpen(false)}>Cancel</Button>
-            <Button onClick={handleCreateNewStock}>Create Stock Type</Button>
+            <Button onClick={handleCreateNewStock}> <PackagePlus className="mr-2 h-4 w-4" /> Create Stock Type</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

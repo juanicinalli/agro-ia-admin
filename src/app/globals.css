@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -55,33 +56,34 @@ body {
   }
 
   .dark {
-    --background: 147 50% 20%; /* Desaturated Dark Green */
-    --foreground: 147 15% 85%; /* Light text for dark green bg */
+    /* Updated dark theme to be a light theme as requested */
+    --background: 0 0% 98%; /* Off-white */
+    --foreground: 222.2 84% 4.9%; /* Dark text */
 
-    --card: 147 50% 23%; /* Slightly lighter dark green */
-    --card-foreground: 147 15% 85%;
+    --card: 0 0% 100%; /* White card */
+    --card-foreground: 222.2 84% 4.9%; /* Dark text on card */
 
-    --popover: 147 50% 18%; /* Slightly darker dark green */
-    --popover-foreground: 147 15% 85%;
+    --popover: 0 0% 100%; /* White popover */
+    --popover-foreground: 222.2 84% 4.9%; /* Dark text on popover */
 
-    --primary: 37 91% 50%; /* Amber */
-    --primary-foreground: 37 91% 10%; /* Dark Amber for contrast */
+    --primary: 37 91% 50%; /* Amber - remains same */
+    --primary-foreground: 37 91% 10%; /* Dark Amber for contrast - remains same */
     
-    --secondary: 147 40% 30%; /* Muted Green */
-    --secondary-foreground: 147 15% 90%; 
+    --secondary: 210 40% 96.1%; /* Light gray - same as light theme */
+    --secondary-foreground: 222.2 47.4% 11.2%; /* Dark text - same as light theme */
 
-    --muted: 147 40% 28%;
-    --muted-foreground: 147 15% 65%;
+    --muted: 210 40% 96.1%; /* Light gray - same as light theme */
+    --muted-foreground: 215.4 16.3% 46.9%; /* Medium dark text - same as light theme */
 
-    --accent: 84 80% 46%; /* Green */
-    --accent-foreground: 84 80% 10%; /* Dark Green for contrast */
+    --accent: 84 80% 46%; /* Green - remains same */
+    --accent-foreground: 84 80% 10%; /* Dark Green for contrast - remains same */
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
+    --destructive: 0 84.2% 60.2%; /* Destructive color - remains same (was 0 62.8% 30.6%)*/
+    --destructive-foreground: 210 40% 98%; /* Destructive foreground - remains same (was 0 85.7% 97.3%) */
 
-    --border: 147 40% 30%;
-    --input: 147 40% 28%;
-    --ring: 37 91% 50%; /* Amber for ring */
+    --border: 214.3 31.8% 91.4%; /* Light border - same as light theme */
+    --input: 214.3 31.8% 91.4%; /* Light input bg - same as light theme */
+    --ring: 37 91% 50%; /* Amber for ring - remains same */
     
     --chart-1: 37 91% 50%; /* Amber */
     --chart-2: 84 80% 46%; /* Green */
@@ -89,14 +91,14 @@ body {
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
 
-    /* Sidebar colors for dark theme - derived from main theme */
-    --sidebar-background: 147 50% 18%; /* Darker shade of bg */
-    --sidebar-foreground: 147 15% 85%; /* Light text */
+    /* Sidebar colors for "dark" (now light) theme - should match light theme's sidebar */
+    --sidebar-background: 210 40% 98%; /* Lighter gray */
+    --sidebar-foreground: 222.2 84% 4.9%; /* Dark text */
     --sidebar-primary: 37 91% 50%; /* Amber */
     --sidebar-primary-foreground: 37 91% 10%; /* Dark Amber */
     --sidebar-accent: 84 80% 46%; /* Green */
     --sidebar-accent-foreground: 84 80% 10%; /* Dark Green */
-    --sidebar-border: 147 40% 25%;
+    --sidebar-border: 214.3 31.8% 91.4%;
     --sidebar-ring: 37 91% 50%;
   }
 }
